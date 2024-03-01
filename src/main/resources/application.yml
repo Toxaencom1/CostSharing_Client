@@ -1,5 +1,10 @@
 server:
   port: 8080
+
 spring:
   application:
     name: Client
+  mvc:
+    hidden method:
+      filter:
+        enabled: true

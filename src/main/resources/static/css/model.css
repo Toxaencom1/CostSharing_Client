@@ -1,0 +1,49 @@
+.card {
+    width: 20%; /* Ширина карточки */
+    margin-right: auto; /* отступ слева будет автоматически рассчитываться */
+    text-align: left;
+    border: 1px solid #ccc; /* Граница карточки */
+    border-radius: 10px; /* Скругление углов */
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.067); /* Тень */
+    padding: 10px; /* Внутренние отступы */
+    background-color: #848484;
+    transition: transform 0.2s ease-in-out;
+}
+button {
+    width: auto; /* Ширина футера */
+    background-color: #2e3257; /* Цвет фона */
+    border: none; /* Убираем границу */
+    color: white; /* Цвет текста */
+    padding: 10px 20px; /* Внутренние отступы */
+    text-align: center; /* Выравниваем текст по центру */
+    text-decoration: none; /* Убираем подчеркивание */
+    display: inline-block; /* Выводим как блочный элемент */
+    font-size: 12px; /* Размер текста */
+    cursor: pointer; /* Указатель при наведении */
+    border-radius: 5px; /* Скругление углов */
+}
+button:hover {
+    background-color: #457ba0; /* Изменяем цвет фона при наведении */
+}
+table {
+    margin-left: 0;
+    border-collapse: collapse;
+    margin: 0 auto;
+}
+
+th, td {
+    border: 1px solid #444;
+    padding: 5px;
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+}
+body {
+    background-image: url('https://coko1.ru/wp-content/uploads/2019/09/femida221118-1024x683.jpg'); /* Укажите путь к вашему изображению */
+    background-repeat: no-repeat;
+    background-size: cover; /* Подгоняет изображение так, чтобы оно полностью заполняло фон */
+    background-position: center center; /* Позиционирует изображение по центру */
+    background-attachment: fixed; /* Зафиксирует изображение */
+}
