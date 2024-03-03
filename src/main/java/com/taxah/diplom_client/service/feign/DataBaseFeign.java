@@ -27,4 +27,7 @@ public interface DataBaseFeign {
 
     @PostMapping("/user/add")
     User addUser(@RequestBody User user);
+
+    @PostMapping("/users/add/temp_user")
+    TempUser addGuestMember(@RequestBody TempUser tempUser);
 }

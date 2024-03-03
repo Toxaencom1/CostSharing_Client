@@ -14,9 +14,7 @@ import lombok.ToString;
 
 public class PayFact {
     private Long id;
-    @JsonIdentityReference(alwaysAsId = true)
-    @ToString.Exclude
-    private Session session;
+    private Long sessionId;
     private String userData;
     private Long userId;
     private double amount;

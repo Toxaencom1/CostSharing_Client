@@ -13,12 +13,6 @@ import java.util.List;
 public class TempUser extends Account {
 
     private Long sessionId;
-
-    @ToString.Exclude
-    @JsonIdentityReference(alwaysAsId = true)
-    private List<ProductUsing> productUsingList;
-
-
     public TempUser(Long sessionId, String firstName, String lastName) {
         super(firstName,lastName);
         this.sessionId = sessionId;

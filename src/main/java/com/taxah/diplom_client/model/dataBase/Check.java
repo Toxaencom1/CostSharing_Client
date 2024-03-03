@@ -13,14 +13,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class Check {
     private Long id;
-    @JsonIdentityReference(alwaysAsId = true)
-    @ToString.Exclude
-    private Session session;
+    private Long sessionId;
     private String name;
     private List<ProductUsing> productUsingList;
 

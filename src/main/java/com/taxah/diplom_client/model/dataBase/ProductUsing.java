@@ -13,13 +13,9 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@JsonIdentityInfo(
-        generator = ObjectIdGenerators.PropertyGenerator.class,
-        property = "id")
 public class ProductUsing {
     private Long id;
-    @ToString.Exclude
-    private Check check;
+    private Long checkId;
     private String productName;
     private Double cost;
     private List<TempUser> users;

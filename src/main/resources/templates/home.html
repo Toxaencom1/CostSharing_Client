@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/home.css">
+    <title>Welcome</title>
+</head>
+<body>
+<div class="card" >
+    <h2>Welcome: </h2>
+    <div class="card2" >
+        <button>Create session</button><br><br>
+        <form th:action="@{/client/session/find}" method="post" onsubmit="return validateForm()">
+            <label> Find session
+                <input type="number" id="id" name="id" placeholder="Session id">
+            </label>
+            <button type="submit">Find session</button>
+            <div id="error-message" class="error-message" style="display:none;">Please enter a session id</div>
+        </form>
+        <script>
+            function validateForm() {
+                var sessionId = document.getElementById("sessionId").value;
+                if (sessionId.trim() === "") {
+                    var errorMessage = document.getElementById("error-message");
+                    errorMessage.style.display = "block"; // Показываем сообщение об ошибке
+                    return false; // предотвращает отправку формы, если поле пустое
+                }
+                return true;
+            }
+        </script>
+
+
+
+    </div>
+</div>
+</body>
+</html>

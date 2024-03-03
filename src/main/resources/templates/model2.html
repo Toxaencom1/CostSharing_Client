@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/model.css">
+    <title>Friends calculation</title>
+</head>
+<body>
+<div class="card" >
+    <h2>User: Anton Takhayev</h2>
+</div>
+<div class="card" >
+    <h2>Meeting members:</h2>
+    <button>Add</button> <br><br>
+    <table border="1" style="margin-left: 0;">
+        <tr>
+            <th>№</th>
+            <th>First name</th>
+            <th>Last name</th>
+            <th></th>
+
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Alex</td>
+            <td>Starikov</td>
+            <td>
+                <button>Delete</button>
+            </td>
+        </tr>
+        <!-- будет в цикле -->
+        <tr>
+            <td>2</td>
+            <td>Anton</td>
+            <td>Takhayev</td>
+            <td>
+                <button>Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>Andrew</td>
+            <td>Tkachenko</td>
+            <td>
+                <button>Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>Artem</td>
+            <td>Zhukov</td>
+            <td>
+                <button>Delete</button>
+            </td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>Ruslan</td>
+            <td>Zelentcov</td>
+            <td>
+                <button>Delete</button>
+            </td>
+        </tr>
+        <!-- будет в цикле -->
+    </table>
+</div>
+
+<div class="card" >
+    <button>Create session</button>
+</div> <br><br>
+
+
+<div class="card" >
+    <h2>Pay Fact</h2>
+    <button>Add</button> <br><br>
+    <table border="1" style="margin-left: 0;">
+        <tr>
+            <th>№</th>
+            <th>Member</th>
+            <th>Payed</th>
+            <th></th>
+            <th></th>
+
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Alex Starikov</td>
+            <td>10000</td>
+            <td>
+                <button>Edit</button>
+            </td>
+            <td>
+                <button>Delete</button>
+            </td>
+        </tr>
+        <!-- будет в цикле -->
+        <tr>
+            <td>2</td>
+            <td>Artem Zhukov</td>
+            <td>20000</td>
+            <td>
+                <button>Edit</button>
+            </td>
+            <td>
+                <button>Delete</button>
+            </td>
+        </tr>
+        <!-- будет в цикле -->
+    </table>
+</div>  <br><br>
+
+<div class="card" >
+    <input placeholder="Enter Check name">
+    <button>Create Check</button>
+</div> <br><br>
+
+<div class="card" >
+    <h2>Check №1</h2>
+    <h2>Check name</h2>
+    <button>Add product</button>  <br><br>
+    <table border="1">
+        <tr>
+            <th>№</th>
+            <th>Product</th>
+            <th>Cost</th>
+            <th>Consumer Members list</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Alcohol</td>
+            <td>10000</td>
+            <td>Alex, Andrew, Artem, Ruslan</td>
+            <td>
+                <button>Edit</button>
+            </td>
+            <td>
+                <button>Delete</button>
+            </td>
+
+        </tr>
+    </table><br><br>
+    <button>Delete check</button>
+</div><br>
+
+<!-- будет в цикле -->
+<div class="card" >
+    <h2>Check №2</h2>
+    <h2>Check name</h2>
+    <button>Add product</button>  <br><br>
+    <table border="1">
+        <tr>
+            <th>№</th>
+            <th>Product</th>
+            <th>Cost</th>
+            <th>Consumer Members list</th>
+            <th></th>
+            <th></th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Food</td>
+            <td>20000</td>
+            <td>Alex, Anton, Andrew, Artem, Ruslan</td>
+            <td>
+                <button>Edit</button>
+            </td>
+            <td>
+                <button>Delete</button>
+            </td>
+
+        </tr>
+    </table><br><br>
+    <button>Delete check</button>
+</div><br>
+<!-- будет в цикле -->
+
+<div class="card" >
+    <button>Calculate session</button>
+    <button>Close session</button> <br><br>
+</div> <br><br>
+<div class="card" >
+    <h2>Сalculation</h2>
+    <table border="1">
+        <tr>
+            <th>№</th>
+            <th>Return</th>
+            <th>Payer Members list</th>
+            <th>Amount</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>Artem</td>
+            <td>Alex, Anton, Andrew, Ruslan</td>
+            <td>4000</td>
+        </tr>
+        <!-- будет в цикле -->
+        <tr>
+            <td>2</td>
+            <td>Alex</td>
+            <td>Andrew, Artem, Ruslan</td>
+            <td>2500</td>
+        </tr>
+        <!-- будет в цикле -->
+    </table>
+</div> <br><br>
+
+<div class="card" >
+    <input placeholder="Product name"> <br><br>
+    <input placeholder="Cost"> <br><br>
+    <button>Add product</button>
+    <h2>Cписок участников сессии</h2>
+    <ul id="большой-список">
+        <li>Элемент 1</li>
+        <li>Элемент 2</li>
+        <li>Элемент 3</li>
+    </ul>
+
+    <h2>Список участников использующих продукт</h2>
+    <ul id="малый-список">
+        <!-- Здесь будут добавлены элементы из большого списка -->
+    </ul>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get reference to the big list
+            var bigList = document.getElementById('big-list');
+
+            // Assign event handler to elements of the big list
+            bigList.addEventListener('click', function(event) {
+                // Check if clicked on a list item
+                if (event.target.tagName === 'LI') {
+                    // Get text content of the list item
+                    var textContent = event.target.textContent;
+
+                    // Create a new element for the small list
+                    var newElement = document.createElement('li');
+                    newElement.textContent = textContent;
+
+                    // Get reference to the small list and append the new element to it
+                    var smallList = document.getElementById('small-list');
+                    smallList.appendChild(newElement);
+
+                    // Remove the element from the big list
+                    event.target.remove();
+                }
+            });
+
+            // Assign event handler to elements of the small list
+            var smallList = document.getElementById('small-list');
+            smallList.addEventListener('click', function(event) {
+                // Check if clicked on a list item
+                if (event.target.tagName === 'LI') {
+                    // Get text content of the list item
+                    var textContent = event.target.textContent;
+
+                    // Create a new element for the big list
+                    var newElement = document.createElement('li');
+                    newElement.textContent = textContent;
+
+                    // Get reference to the big list and append the new element to it
+                    var bigList = document.getElementById('big-list');
+                    bigList.appendChild(newElement);
+
+                    // Remove the element from the small list
+                    event.target.remove();
+                }
+            });
+        });
+    </script>
+
+</div> <br><br>
+</body>
+</html>
