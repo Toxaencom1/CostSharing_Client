@@ -21,8 +21,8 @@
     </div><br><br>
     <form th:object="${mySession}" action="/client/session/add/temp_user" method="post">
         <input type="hidden" name="id"/>
-        <input type="text" name="firstname" placeholder="First name"/>
-        <input type="text" name="lastname" placeholder="Last name"/>
+        <input type="text" name="firstname" placeholder="First name" required/>
+        <input type="text" name="lastname" placeholder="Last name" required/>
         <input type="hidden" name="sessionId" th:value="${mySession.id}"/><br><br>
         <button type="submit">Add guest</button>
         <br><br>

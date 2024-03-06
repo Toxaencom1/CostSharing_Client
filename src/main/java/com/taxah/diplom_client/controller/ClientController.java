@@ -18,38 +18,41 @@ public class ClientController {
     private final DataBaseFeign apiService;
 
     @GetMapping
-    public String home(){
+    public String home() {
         return "home";
+    }
+
+    @GetMapping("/session/{id}")
+    public String getSession(@PathVariable Long id, Model model) {
+        Session mySession = apiService.getSession(id);
+        model.addAttribute("mySession", mySession);
+        return "model";
     }
 
 
     @PostMapping("/session/find")
-    public String findSession(@RequestParam("id") Long id, Model model){
+    public String findSession(@RequestParam("id") Long id) {
+        System.out.println("Doshlo " + id);
         System.out.println(id);
-        if (id == null){
+        if (id == null) {
             return "redirect:/error";
         }
-        Session mySession = apiService.getSession(id);
-        model.addAttribute("mySession",mySession);
-        System.out.println(mySession);
-        return "model";
+        return "redirect:/client/session/" + id;
     }
 
     @GetMapping("/session/create")
-    public String createSession(@RequestBody List<TempUser> users){
+    public String createSession(@RequestBody List<TempUser> users) {
         Long id = null;
-        if (users.get(0) != null){
+        if (users.get(0) != null) {
             id = users.get(0).getId();
         }
-        apiService.createNewSession(users,id);
+        apiService.createNewSession(users, id);
         return "home";
     }
 
     @PostMapping("/session/add/temp_user")
-    public String addMember(TempUser tempUser, Model model){
+    public String addMember(TempUser tempUser) {
         System.out.println(apiService.addGuestMember(tempUser));
-        Session mySession = apiService.getSession(tempUser.getSessionId());
-        model.addAttribute("mySession",mySession);
-        return "model";
+        return "redirect:/client/session/" + tempUser.getSessionId();
     }
 }
