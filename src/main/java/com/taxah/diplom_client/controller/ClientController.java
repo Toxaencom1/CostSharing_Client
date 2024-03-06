@@ -32,8 +32,6 @@ public class ClientController {
 
     @PostMapping("/session/find")
     public String findSession(@RequestParam("id") Long id) {
-        System.out.println("Doshlo " + id);
-        System.out.println(id);
         if (id == null) {
             return "redirect:/error";
         }

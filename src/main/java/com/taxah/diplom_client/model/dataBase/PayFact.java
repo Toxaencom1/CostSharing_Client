@@ -14,8 +14,7 @@ import lombok.ToString;
 
 public class PayFact {
     private Long id;
-    private Long sessionId;
-    private String userData;
-    private Long userId;
+    private Long checkId;
+    private TempUser tempUser;
     private double amount;
 }

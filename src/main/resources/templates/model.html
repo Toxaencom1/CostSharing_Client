@@ -10,7 +10,7 @@
 <div class="card">
     <div class="card2">
         <h2>User: Anton Takhayev</h2>
-    </div><br><br>
+    </div><br>
     <p>Session ID: <span th:text="${mySession.id}">id</span></p>
     <!--<p>Admin ID: <span th:text="${mySession.adminId}">adminId</span></p>-->
 </div>
@@ -47,25 +47,53 @@
 </div>
 <br><br>
 
-<div class="card">
+<!--<div class="card">-->
+<!--    <div class="card2">-->
+<!--        <h2>Pay Fact</h2>-->
+<!--    </div><br><br>-->
+<!--    <button>Add</button>-->
+<!--    <br><br>-->
+<!--    <table style="margin-left: 0;">-->
+<!--        <tr>-->
+<!--            <th>№</th>-->
+<!--            <th>Member</th>-->
+<!--            <th>Payed</th>-->
+<!--            <th></th>-->
+<!--            <th></th>-->
+
+<!--        </tr>-->
+<!--        <tr th:each="payfact, iterStat : ${mySession.payFact}">-->
+<!--            <td th:text="${iterStat.count}">number</td>-->
+<!--            <td th:text="${payfact.tempUser.firstname+' '+payfact.tempUser.lastname}">firstname lastname</td>-->
+<!--            <td th:text="${payfact.amount}">amount</td>-->
+<!--            <td>-->
+<!--                <button>Edit</button>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <button>Delete</button>-->
+<!--            </td>-->
+<!--        </tr>-->
+<!--    </table>-->
+<!--</div>-->
+<!--<br><br>-->
+
+<div th:each="check : ${mySession.checkList}" class="card">
     <div class="card2">
-        <h2>Pay Fact</h2>
-    </div><br><br>
-    <button>Add</button>
-    <br><br>
-    <table style="margin-left: 0;">
+<!--        <h2 th:text="'Check Id: ' + ${check.id}">Check</h2>-->
+
+        <h2 >Check name: <span th:text="${check.name}"></span></h2>
+
+        <h2>Pay fact</h2>
+        <table style="margin-left: 0;">
         <tr>
-            <th>№</th>
             <th>Member</th>
             <th>Payed</th>
             <th></th>
             <th></th>
-
         </tr>
-        <tr th:each="payfact, iterStat : ${mySession.payFact}">
-            <td th:text="${iterStat.count}">number</td>
-            <td th:text="${payfact.userData}">firstname lastname</td>
-            <td th:text="${payfact.amount}">amount</td>
+        <tr th:object="${check.payFact}">
+            <td th:text="*{tempUser.firstname+' '+tempUser.lastname}">firstname lastname</td>
+            <td th:text="*{amount}">amount</td>
             <td>
                 <button>Edit</button>
             </td>
@@ -73,14 +101,7 @@
                 <button>Delete</button>
             </td>
         </tr>
-    </table>
-</div>
-<br><br>
-
-<div th:each="check : ${mySession.checkList}" class="card">
-    <div class="card2">
-        <h2 th:text="'Check Id: ' + ${check.id}">Check</h2>
-        <h2 th:text="${check.name}">Check name</h2>
+        </table>
     </div> <br>
     <button>Add product</button>
     <div th:each="productU, iterStat : ${check.productUsingList}">

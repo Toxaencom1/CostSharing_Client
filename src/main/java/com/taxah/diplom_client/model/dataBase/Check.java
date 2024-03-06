@@ -16,6 +16,7 @@ import java.util.List;
 public class Check {
     private Long id;
     private Long sessionId;
+    private PayFact payFact;
     private String name;
     private List<ProductUsing> productUsingList;
 

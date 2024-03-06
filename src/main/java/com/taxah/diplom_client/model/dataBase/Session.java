@@ -20,14 +20,8 @@ public class Session {
 
     private List<TempUser> membersList = new ArrayList<>();
 
-    private List<PayFact> payFact = new ArrayList<>();
-
     private List<Check> checkList = new ArrayList<>();;
 
     private boolean isClosed;
 
-
-    public void addPayFact(PayFact pF) {
-        payFact.add(pF);
-    }
 }
