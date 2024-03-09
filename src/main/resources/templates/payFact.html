@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Pay Fact</title>
+    <link rel="stylesheet" href="/css/model.css">
+</head>
+<body>
+<h2>Pay Fact</h2>
+    <form th:object="${mySession}" id="addPayFact"
+          th:action="${tempUser != null ?  '/client/session/update/payfact' : '/client/session/add/payfact'}"
+          method="post">
+        <select name="tempUserId">
+            <option th:each="user : ${mySession.membersList}"
+                    th:value="${user.id}"
+                    th:text="${user.firstname + ' ' + user.lastname}"
+                    th:selected="${tempUser != null and user.id == tempUser.id}">
+            </option>
+        </select>
+        <input type="number" name="amount" th:value="${amount}" placeholder="Amount"/><br><br>
+        <input type="hidden" name="checkId" th:value="${checkId}"/>
+        <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
+        <button type="submit">Add</button>
+    </form>
+</body>
+</html>

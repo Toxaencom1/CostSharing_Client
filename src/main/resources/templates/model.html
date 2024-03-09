@@ -40,50 +40,27 @@
             <td th:text="${member.firstname}">firstname</td>
             <td th:text="${member.lastname}">lastname</td>
             <td>
-                <button>Delete</button>
+                <form id="deleteMember" th:action="@{member/{id}(id=${member.id})}" method="post">
+                    <input type="hidden" name="_method" value="DELETE"/>
+                    <button type="submit" class="button_link" onclick="return confirm('Are you sure you want to delete this member?')">Delete</button>
+                </form>
             </td>
         </tr>
     </table>
 </div>
 <br><br>
 
-<!--<div class="card">-->
-<!--    <div class="card2">-->
-<!--        <h2>Pay Fact</h2>-->
-<!--    </div><br><br>-->
-<!--    <button>Add</button>-->
-<!--    <br><br>-->
-<!--    <table style="margin-left: 0;">-->
-<!--        <tr>-->
-<!--            <th>№</th>-->
-<!--            <th>Member</th>-->
-<!--            <th>Payed</th>-->
-<!--            <th></th>-->
-<!--            <th></th>-->
-
-<!--        </tr>-->
-<!--        <tr th:each="payfact, iterStat : ${mySession.payFact}">-->
-<!--            <td th:text="${iterStat.count}">number</td>-->
-<!--            <td th:text="${payfact.tempUser.firstname+' '+payfact.tempUser.lastname}">firstname lastname</td>-->
-<!--            <td th:text="${payfact.amount}">amount</td>-->
-<!--            <td>-->
-<!--                <button>Edit</button>-->
-<!--            </td>-->
-<!--            <td>-->
-<!--                <button>Delete</button>-->
-<!--            </td>-->
-<!--        </tr>-->
-<!--    </table>-->
-<!--</div>-->
-<!--<br><br>-->
-
 <div th:each="check : ${mySession.checkList}" class="card">
     <div class="card2">
 <!--        <h2 th:text="'Check Id: ' + ${check.id}">Check</h2>-->
 
         <h2 >Check name: <span th:text="${check.name}"></span></h2>
-
         <h2>Pay fact</h2>
+        <form id="addPayFact" th:action="@{/client/session/payfact}" method="post">
+            <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
+            <input type="hidden" name="checkId" th:value="${check.id}"/>
+            <button type="submit" th:if="${check.payFact == null}">Add</button><br><br>
+        </form>
         <table style="margin-left: 0;">
         <tr>
             <th>Member</th>
@@ -91,15 +68,27 @@
             <th></th>
             <th></th>
         </tr>
-        <tr th:object="${check.payFact}">
+        <tr th:if="${check.payFact != null}" th:object="${check.payFact}">
             <td th:text="*{tempUser.firstname+' '+tempUser.lastname}">firstname lastname</td>
             <td th:text="*{amount}">amount</td>
             <td>
-                <button>Edit</button>
+                <form id="updatePayFact" th:action="@{/client/session/update/payfact}" method="post">
+                    <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
+                    <input type="hidden" name="checkId" th:value="${check.id}"/>
+                    <input type="hidden" name="payFactId" th:value="*{id}"/>
+                    <button type="submit" th:if="${check.payFact != null}">Edit</button><br><br>
+                </form>
+
             </td>
             <td>
-                <button>Delete</button>
+                <form id="deletePayFact" th:action="@{payfact/{id}(id=${check.payFact.id})}" method="post">
+                    <input type="hidden" name="_method" value="DELETE"/>
+                    <button type="submit" class="button_link" onclick="return confirm('Are you sure you want to delete this pay fact?')">Delete</button>
+                </form>
             </td>
+        </tr>
+        <tr th:unless="${check.payFact != null}">
+            <td colspan="4">No pay fact</td>
         </tr>
         </table>
     </div> <br>

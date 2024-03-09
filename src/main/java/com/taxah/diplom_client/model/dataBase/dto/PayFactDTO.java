@@ -6,5 +6,5 @@ import lombok.Data;
 public class PayFactDTO {
     Long tempUserId;
     Double amount;
-    Long sessionId;
+    Long checkId;
 }
