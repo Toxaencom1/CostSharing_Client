@@ -17,7 +17,7 @@ public interface DataBaseFeign {
     PayFact getPayFact(@PathVariable Long id);
 
     @GetMapping("/session/tempuser/{id}")
-    public TempUser getTempUser(@PathVariable Long id);
+    TempUser getTempUser(@PathVariable Long id);
 
     @PostMapping("/session/create/{id}")
     Long createNewSession(@RequestBody List<TempUser> accounts, @PathVariable Long id);

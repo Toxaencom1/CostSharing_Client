@@ -71,7 +71,7 @@ public class ClientController {
         Session mySession = apiService.getSession(sessionId);
         model.addAttribute("mySession", mySession);
         model.addAttribute("checkId", checkId);
-        return "payFact";
+        return "addPayFact";
     }
 
     @PostMapping("/session/add/payfact")
@@ -83,14 +83,13 @@ public class ClientController {
     @PostMapping("/session/update/payfact")
     public String payFactFormUpdate(@RequestParam("sessionId") Long sessionId,
                                     @RequestParam("payFactId") Long payFactId,
-                                    @RequestParam("checkId") Long checkId,
-                                    Model model) {
+                                    @RequestParam("checkId") Long checkId, Model model) {
         Session session = apiService.getSession(sessionId);
         PayFact payFact = apiService.getPayFact(payFactId);
         payFact.setCheckId(checkId);
         model.addAttribute("mySession", session);
         model.addAttribute("payFact", payFact);
-        return "payFact2";
+        return "updatePayFact";
     }
 
     @PutMapping("/session/update/payfact/up")

@@ -8,13 +8,12 @@
 <body>
 <h2>Pay Fact</h2>
     <form th:object="${mySession}" id="addPayFact"
-          th:action="${tempUser != null ?  '/client/session/update/payfact' : '/client/session/add/payfact'}"
+          th:action="@{/client/session/add/payfact}"
           method="post">
         <select name="tempUserId">
             <option th:each="user : ${mySession.membersList}"
                     th:value="${user.id}"
-                    th:text="${user.firstname + ' ' + user.lastname}"
-                    th:selected="${tempUser != null and user.id == tempUser.id}">
+                    th:text="${user.firstname + ' ' + user.lastname}">
             </option>
         </select>
         <input type="number" name="amount" th:value="${amount}" placeholder="Amount"/><br><br>
