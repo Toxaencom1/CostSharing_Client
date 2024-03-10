@@ -12,5 +12,5 @@ import java.util.List;
 public interface CalculateFeign {
 
     @PostMapping("/execute")
-    public List<Debt> calculate(@RequestBody Session mySession);
+    List<Debt> calculate(@RequestBody Session mySession);
 }

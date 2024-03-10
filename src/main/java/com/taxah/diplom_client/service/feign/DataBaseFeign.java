@@ -38,7 +38,7 @@ public interface DataBaseFeign {
     TempUser addGuestMember(@RequestBody TempUser tempUser);
 
     @PostMapping("/productusing/add/{productUsingId}")
-    public Long addTempUserToProduct(@PathVariable Long productUsingId,@RequestBody TempUser tempUser);
+    Long addTempUserToProduct(@PathVariable Long productUsingId,@RequestBody TempUser tempUser);
 
     @DeleteMapping("/users/delete/{id}")
     Long deleteMember(@PathVariable Long id);

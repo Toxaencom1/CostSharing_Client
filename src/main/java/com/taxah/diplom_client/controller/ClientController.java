@@ -12,9 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import com.fasterxml.jackson.core.type.TypeReference;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,8 +20,6 @@ import java.util.List;
 @Controller
 @RequestMapping("/client")
 public class ClientController {
-    private final ObjectMapper objectMapper;
-    private final ClientService service;
     private final DataBaseFeign apiDbService;
     private final CalculateFeign apiCalculateService;
 
@@ -157,7 +153,7 @@ public class ClientController {
         pDTO.setCheckId(productUsing.getCheckId());
         pDTO.setProductName(productUsing.getProductName());
         pDTO.setCost(productUsing.getCost());
-        pDTO.setTempUsers(new ArrayList<TempUser>());
+        pDTO.setTempUsers(new ArrayList<>());
         ProductUsing newProductUsing = apiDbService.addProductUsing(pDTO);
         System.out.println(newProductUsing);
         return "redirect:/client/session/"+sessionId;
