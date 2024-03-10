@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/css/model.css">
-    <title>Friends calculation</title>
+    <link rel="icon" href="/ico/balance.ico" type="image/x-icon">
+    <title>Cost Sharing</title>
 </head>
 <body>
 <div class="card">
@@ -132,6 +133,15 @@
     <button>Create Check</button>
 </div>
 <br><br>
+
+<div class="card">
+    <form th:object="${mySession}" th:action="@{/client/calc/execute}" method="post">
+        <input type="hidden" name="sessionId" th:value="${mySession.id}" />
+        <label> Session:
+            <button type="submit">Calculate</button>
+        </label>
+    </form>
+</div>
 
 </body>
 </html>

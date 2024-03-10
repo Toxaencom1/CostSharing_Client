@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Cost Sharing Calculate Session</title>
+    <link rel="stylesheet" href="/css/model.css">
+    <link rel="icon" href="/ico/balance.ico" type="image/x-icon">
+</head>
+<body>
+<h1>Debt List</h1>
+<div class="card">
+    <table style="margin-left: 0;">
+        <thead>
+        <tr>
+            <th>To Whom</th>
+            <th>Debtors</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="debt : ${debtList}">
+            <td th:text="${debt.toWhom.firstname + ' ' + debt.toWhom.lastname}"></td>
+            <td>
+                <ul>
+                    <li th:each="debtor : ${debt.debtors}">
+                        <span th:text="${debtor.key}"></span>: <span th:text="${debtor.value}"></span>
+                    </li>
+                </ul>
+            </td>
+        </tr>
+        </tbody>
+    </table><br><br>
+    <button onclick="goBack()">Go back to Session</button>
+</div>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

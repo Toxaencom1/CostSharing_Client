@@ -1,20 +1,25 @@
 package com.taxah.diplom_client.controller;
 
+import com.taxah.diplom_client.model.calculate.Debt;
 import com.taxah.diplom_client.model.dataBase.*;
 import com.taxah.diplom_client.model.dataBase.dto.PayFactDTO;
 import com.taxah.diplom_client.service.ClientService;
+import com.taxah.diplom_client.service.feign.CalculateFeign;
 import com.taxah.diplom_client.service.feign.DataBaseFeign;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/client")
 public class ClientController {
     private final ClientService service;
-    private final DataBaseFeign apiService;
+    private final DataBaseFeign apiDbService;
+    private final CalculateFeign apiCalculateService;
 
     @GetMapping
     public String home() {
@@ -23,7 +28,7 @@ public class ClientController {
 
     @GetMapping("/session/{id}")
     public String getSession(@PathVariable Long id, Model model) {
-        Session mySession = apiService.getSession(id);
+        Session mySession = apiDbService.getSession(id);
         model.addAttribute("mySession", mySession);
         return "model";
     }
@@ -48,19 +53,19 @@ public class ClientController {
 
     @PostMapping("/session/add/temp_user")
     public String addMember(TempUser tempUser) {
-        System.out.println(apiService.addGuestMember(tempUser));
+        System.out.println(apiDbService.addGuestMember(tempUser));
         return "redirect:/client/session/" + tempUser.getSessionId();
     }
 
     @DeleteMapping("/session/member/{id}")
     public String deleteMember(@PathVariable Long id) {
-        Long sessionId = apiService.deleteMember(id);
+        Long sessionId = apiDbService.deleteMember(id);
         return "redirect:/client/session/" + sessionId;
     }
 
     @DeleteMapping("/session/payfact/{id}")
     public String deletePayFact(@PathVariable Long id) {
-        Long sessionId = apiService.deletePayFact(id);
+        Long sessionId = apiDbService.deletePayFact(id);
         return "redirect:/client/session/" + sessionId;
     }
 
@@ -68,7 +73,7 @@ public class ClientController {
     public String payFactFormAdd(@RequestParam("sessionId") Long sessionId,
                                  @RequestParam("checkId") Long checkId,
                                  Model model) {
-        Session mySession = apiService.getSession(sessionId);
+        Session mySession = apiDbService.getSession(sessionId);
         model.addAttribute("mySession", mySession);
         model.addAttribute("checkId", checkId);
         return "addPayFact";
@@ -76,7 +81,7 @@ public class ClientController {
 
     @PostMapping("/session/add/payfact")
     public String addPayFact(@ModelAttribute PayFactDTO payFactDTO, @RequestParam("sessionId") Long sessionId) {
-        apiService.addPayFact(payFactDTO);
+        apiDbService.addPayFact(payFactDTO);
         return "redirect:/client/session/" + sessionId;
     }
 
@@ -84,8 +89,8 @@ public class ClientController {
     public String payFactFormUpdate(@RequestParam("sessionId") Long sessionId,
                                     @RequestParam("payFactId") Long payFactId,
                                     @RequestParam("checkId") Long checkId, Model model) {
-        Session session = apiService.getSession(sessionId);
-        PayFact payFact = apiService.getPayFact(payFactId);
+        Session session = apiDbService.getSession(sessionId);
+        PayFact payFact = apiDbService.getPayFact(payFactId);
         payFact.setCheckId(checkId);
         model.addAttribute("mySession", session);
         model.addAttribute("payFact", payFact);
@@ -96,9 +101,19 @@ public class ClientController {
     public String updatePayFact(@ModelAttribute("payFact") PayFact payFact,
                                 @RequestParam("sessionId") Long sessionId,
                                 @RequestParam("tempUserid") Long tempUserid) {
-        TempUser tempUser = apiService.getTempUser(tempUserid);
+        TempUser tempUser = apiDbService.getTempUser(tempUserid);
         payFact.setTempUser(tempUser);
-        apiService.updatePayFact(payFact);
+        apiDbService.updatePayFact(payFact);
         return "redirect:/client/session/" + sessionId;
+    }
+
+    @PostMapping("/calc/execute")
+    public String calculateSession(@RequestParam("sessionId") Long sessionId, Model model){
+        Session session = apiDbService.getSession(sessionId);
+        List<Debt> debtList = apiCalculateService.calculate(session);
+        System.out.println(debtList);
+        model.addAttribute("mySession", session);
+        model.addAttribute("debtList", debtList);
+        return "result";
     }
 }

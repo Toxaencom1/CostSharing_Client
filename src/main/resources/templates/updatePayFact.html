@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Add Pay Fact</title>
+    <title>Cost Sharing Update Pay Fact</title>
     <link rel="stylesheet" href="/css/model.css">
+    <link rel="icon" href="/ico/balance.ico" type="image/x-icon">
 </head>
 <body>
 <h2>Pay Fact</h2>
@@ -11,8 +12,8 @@
           th:action="@{/client/session/update/payfact/up}"
           method="post">
         <input type="hidden" name="_method" value="PUT">
-        <input type="hidden" name="id" th:value="${payFact.id}"/>
-        <input type="hidden" name="checkId" th:value="${payFact.checkId}"/>
+        <input type="hidden" name="id" th:value="*{id}"/>
+        <input type="hidden" name="checkId" th:value="*{checkId}"/>
         <select name="tempUserid">
             <option th:each="user : ${mySession.membersList}"
                     th:value="${user.id}"
@@ -20,9 +21,9 @@
                     th:selected="${user.id == payFact.tempUser.id}">
             </option>
         </select>
-        <input type="number" name="amount" th:value="${payFact.amount}" placeholder="Amount"/><br><br>
-        <input type="hidden" name="sessionId" th:value="${mySession.id}"/><br><br>
-        <button type="submit">Add</button>
+        <input type="number" name="amount" th:value="*{amount}" placeholder="Amount"/><br><br>
+        <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
+        <button type="submit">Edit</button>
     </form>
 </body>
 </html>
