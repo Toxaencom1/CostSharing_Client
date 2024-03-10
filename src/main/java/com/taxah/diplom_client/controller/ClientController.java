@@ -51,6 +51,13 @@ public class ClientController {
 //        return "home";
 //    }
 
+    @PostMapping("session/check")
+    public String checkCreate(@RequestParam("checkName") String checkName,
+                              @RequestParam("sessionId") Long sessionId){
+        apiDbService.createCheck(checkName,sessionId);
+        return "redirect:/client/session/" + sessionId;
+    }
+
     @PostMapping("/session/add/temp_user")
     public String addMember(TempUser tempUser) {
         System.out.println(apiDbService.addGuestMember(tempUser));

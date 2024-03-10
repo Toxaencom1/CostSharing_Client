@@ -129,19 +129,33 @@
 <br>
 
 <div class="card">
-    <input placeholder="Enter Check name">
-    <button>Create Check</button>
+    <form th:object="${mySession}" action="/client/session/check" onsubmit="return validateForm()" method="post">
+        <input type="text" id="checkName" name="checkName" placeholder="Enter Check name">
+        <input type="hidden" name="sessionId" th:value="${mySession.id}" >
+        <button>Create Check</button>
+        <div id="error-message" class="error-message" style="display:none;">Please enter a check name</div>
+    </form>
 </div>
 <br><br>
 
 <div class="card">
-    <form th:object="${mySession}" th:action="@{/client/calc/execute}" method="post">
+    <form th:object="${mySession}" th:action="@{/client/calc/execute}"  method="post">
         <input type="hidden" name="sessionId" th:value="${mySession.id}" />
         <label> Session:
             <button type="submit">Calculate</button>
         </label>
     </form>
 </div>
-
+<script>
+    function validateForm() {
+        var checkName = document.getElementById("checkName").value;
+        if (checkName.trim() === "") {
+            var errorMessage = document.getElementById("error-message");
+            errorMessage.style.display = "block"; // Показываем сообщение об ошибке
+            return false; // предотвращает отправку формы, если поле пустое
+        }
+        return true;
+    }
+</script>
 </body>
 </html>
