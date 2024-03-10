@@ -29,7 +29,7 @@ public interface DataBaseFeign {
     Long createCheck(@RequestParam String name, @PathVariable Long sessionId);
 
     @PostMapping("/session/add/productusing")
-    List<ProductUsing> addProductUsing(@RequestBody ProductUsingDTO p);
+    ProductUsing addProductUsing(@RequestBody ProductUsingDTO p);
 
     @PostMapping("/user/add")
     User addUser(@RequestBody User user);
@@ -37,11 +37,17 @@ public interface DataBaseFeign {
     @PostMapping("/users/add/temp_user")
     TempUser addGuestMember(@RequestBody TempUser tempUser);
 
+    @PostMapping("/productusing/add/{productUsingId}")
+    public Long addTempUserToProduct(@PathVariable Long productUsingId,@RequestBody TempUser tempUser);
+
     @DeleteMapping("/users/delete/{id}")
     Long deleteMember(@PathVariable Long id);
 
     @DeleteMapping("/payfact/delete/{id}")
     Long deletePayFact(@PathVariable Long id);
+
+    @DeleteMapping("/check/delete/{id}")
+    Long deleteCheck(@PathVariable Long id);
 
     @PutMapping("/payfact/update")
     PayFact updatePayFact(@RequestBody PayFact payFact);

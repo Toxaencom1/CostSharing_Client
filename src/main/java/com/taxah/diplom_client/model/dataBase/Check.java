@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,6 +19,6 @@ public class Check {
     private Long sessionId;
     private PayFact payFact;
     private String name;
-    private List<ProductUsing> productUsingList;
+    private List<ProductUsing> productUsingList = new ArrayList<>();
 
 }

@@ -1,8 +1,10 @@
 package com.taxah.diplom_client.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taxah.diplom_client.model.calculate.Debt;
 import com.taxah.diplom_client.model.dataBase.*;
 import com.taxah.diplom_client.model.dataBase.dto.PayFactDTO;
+import com.taxah.diplom_client.model.dataBase.dto.ProductUsingDTO;
 import com.taxah.diplom_client.service.ClientService;
 import com.taxah.diplom_client.service.feign.CalculateFeign;
 import com.taxah.diplom_client.service.feign.DataBaseFeign;
@@ -10,13 +12,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.fasterxml.jackson.core.type.TypeReference;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/client")
 public class ClientController {
+    private final ObjectMapper objectMapper;
     private final ClientService service;
     private final DataBaseFeign apiDbService;
     private final CalculateFeign apiCalculateService;
@@ -70,6 +76,12 @@ public class ClientController {
         return "redirect:/client/session/" + sessionId;
     }
 
+    @DeleteMapping("/session/check/{id}")
+    public String deleteCheck(@PathVariable Long id){
+        Long sessionId = apiDbService.deleteCheck(id);
+        return "redirect:/client/session/" + sessionId;
+    }
+
     @DeleteMapping("/session/payfact/{id}")
     public String deletePayFact(@PathVariable Long id) {
         Long sessionId = apiDbService.deletePayFact(id);
@@ -83,7 +95,7 @@ public class ClientController {
         Session mySession = apiDbService.getSession(sessionId);
         model.addAttribute("mySession", mySession);
         model.addAttribute("checkId", checkId);
-        return "addPayFact";
+        return "/payFact/addPayFact";
     }
 
     @PostMapping("/session/add/payfact")
@@ -101,7 +113,7 @@ public class ClientController {
         payFact.setCheckId(checkId);
         model.addAttribute("mySession", session);
         model.addAttribute("payFact", payFact);
-        return "updatePayFact";
+        return "/payFact/updatePayFact";
     }
 
     @PutMapping("/session/update/payfact/up")
@@ -123,4 +135,43 @@ public class ClientController {
         model.addAttribute("debtList", debtList);
         return "result";
     }
+
+    @PostMapping("/product/create")
+    public String productCreateButton(@RequestParam("checkId") Long checkId,
+                                      @RequestParam("sessionId") Long sessionId,
+                                      Model model){
+        Session session = apiDbService.getSession(sessionId);
+        List<TempUser> members = session.getMembersList();
+        ProductUsing productUsing = new ProductUsing();
+        productUsing.setCheckId(checkId);
+        model.addAttribute("productUsing",productUsing);
+        model.addAttribute("checkId", checkId);
+        model.addAttribute("members",members);
+        model.addAttribute("sessionId",sessionId);
+        return "/productUsing/addProductUsing";
+    }
+    @PostMapping("/addProduct")
+    public String productCreate(@ModelAttribute ProductUsing productUsing,
+                                @RequestParam("sessionId") Long sessionId){
+        ProductUsingDTO pDTO = new ProductUsingDTO();
+        pDTO.setCheckId(productUsing.getCheckId());
+        pDTO.setProductName(productUsing.getProductName());
+        pDTO.setCost(productUsing.getCost());
+        pDTO.setTempUsers(new ArrayList<TempUser>());
+        ProductUsing newProductUsing = apiDbService.addProductUsing(pDTO);
+        System.out.println(newProductUsing);
+        return "redirect:/client/session/"+sessionId;
+    }
+    @PostMapping("/addProduct/addUser")
+    public String addTempUserToProduct(@RequestParam("userId") Long userId,
+                                       @RequestParam("sessionId") Long sessionId,
+                                       @RequestParam("productUsingId") Long productUsingId){
+        System.out.println(userId);
+        TempUser tempUser = apiDbService.getTempUser(userId);
+        apiDbService.addTempUserToProduct(productUsingId,tempUser);
+        return "redirect:/client/session/"+sessionId;
+    }
+
+
+
 }

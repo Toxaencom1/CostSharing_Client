@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/model.css">
+    <link rel="icon" href="/ico/balance.ico" type="image/x-icon">
+    <title>Cost Sharing Add Product Using</title>
+</head>
+<body>
+<h1>Create ProductUsing</h1>
+
+<div class="card">
+    <form th:action="@{/client/addProduct}" th:object="${productUsing}" method="post">
+        <input type="hidden" name="sessionId" th:value="${sessionId}"/>
+        <input type="hidden" name="checkId" th:value="${productUsing.checkId}" />
+        <div>
+            <label>
+            <input type="text" name="productName" placeholder="Product Name" />
+               - Product Name</label>
+        </div>
+        <div>
+            <label>
+            <input type="text" name="cost" th:value="${productUsing.cost}" placeholder="Cost" />
+               - Cost</label>
+        </div>
+        <button type="submit">Add Product</button>
+    </form>
+</div>
+
+<!--<form id="productForm" th:action="@{/client/addProduct}" th:object="${productUsing}" method="post">-->
+<!--    &lt;!&ndash;        <input type="hidden" name="sessionId" th:value="${sessionId}" />&ndash;&gt;-->
+<!--    <input type="hidden" th:value="${productUsing.checkId}" />-->
+<!--    <div>-->
+<!--        <label>-->
+<!--            <input type="text" th:value="${productUsing.productName}" placeholder="Product Name" />-->
+<!--            - Product Name</label>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label>-->
+<!--            <input type="text" th:value="${productUsing.cost}" placeholder="Cost" />-->
+<!--            - Cost</label>-->
+<!--    </div>-->
+<!--    <div>-->
+<!--        <label>-->
+<!--            <select id="selectedUsers" multiple="multiple" th:field="*{users}">-->
+<!--                <option th:each="user : ${members}" th:value="${user.id}" th:text="${user.firstname + ' ' + user.lastname}"></option>-->
+<!--            </select>-->
+<!--            - Users</label>-->
+<!--    </div><br><br>-->
+<!--    <button type="submit">Add Product</button>-->
+<!--</form>-->
+
+</body>
+</html>
