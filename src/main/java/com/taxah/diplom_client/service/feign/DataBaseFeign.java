@@ -13,11 +13,17 @@ public interface DataBaseFeign {
     @GetMapping("/session/{id}")
     Session getSession(@PathVariable Long id);
 
+    @GetMapping("/check/{id}")
+    Check getCheck(@PathVariable Long id);
+
     @GetMapping("/payfact/{id}")
     PayFact getPayFact(@PathVariable Long id);
 
     @GetMapping("/session/tempuser/{id}")
     TempUser getTempUser(@PathVariable Long id);
+
+    @GetMapping("/product/{id}")
+    ProductUsing getProductUsing(@PathVariable Long id);
 
     @PostMapping("/session/create/{id}")
     Long createNewSession(@RequestBody List<TempUser> accounts, @PathVariable Long id);
@@ -38,7 +44,7 @@ public interface DataBaseFeign {
     TempUser addGuestMember(@RequestBody TempUser tempUser);
 
     @PostMapping("/productusing/add/{productUsingId}")
-    Long addTempUserToProduct(@PathVariable Long productUsingId,@RequestBody TempUser tempUser);
+    Long addTempUserToProduct(@PathVariable Long productUsingId, @RequestBody TempUser tempUser);
 
     @DeleteMapping("/users/delete/{id}")
     Long deleteMember(@PathVariable Long id);
@@ -52,6 +58,12 @@ public interface DataBaseFeign {
     @DeleteMapping("/productusing/delete/{id}")
     void deleteProductUsing(@PathVariable(name = "id") Long productUsingId);
 
+    @DeleteMapping("/productusing/delete/user/{productUsingId}")
+    public void deleteTempUserFromProduct(@PathVariable Long productUsingId, @RequestBody TempUser tempUser);
+
     @PutMapping("/payfact/update")
     PayFact updatePayFact(@RequestBody PayFact payFact);
+
+    @PutMapping("/product/update")
+    ProductUsing updateProductUsing(@RequestBody ProductUsing productUsing);
 }

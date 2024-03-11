@@ -10,8 +10,9 @@
 <h1>Create ProductUsing</h1>
 
 <div class="card">
-    <form th:action="@{/client/addProduct}" th:object="${productUsing}" method="post">
-        <input type="hidden" name="sessionId" th:value="${sessionId}"/>
+    <form th:action="@{/client/updateProduct/up}" th:object="${productUsing}" method="post">
+        <input type="hidden" name="_method" value="PUT">
+        <input type="hidden" name="id" th:value="${productUsing.id}"/>
         <input type="hidden" name="checkId" th:value="${productUsing.checkId}" />
         <div>
             <label>
@@ -23,7 +24,8 @@
             <input type="text" name="cost" th:value="${productUsing.cost}" placeholder="Cost" />
                - Cost</label>
         </div>
-        <button type="submit">Add Product</button>
+        <input type="hidden" name="sessionId" th:value="${sessionId}"/>
+        <button type="submit">Update Product</button>
     </form>
 </div>
 

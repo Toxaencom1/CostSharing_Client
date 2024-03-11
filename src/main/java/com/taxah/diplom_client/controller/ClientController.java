@@ -29,7 +29,7 @@ public class ClientController {
     @GetMapping("/session/{id}")
     public String getSession(@PathVariable Long id, Model model) {
         Session mySession = apiDbService.getSession(id);
-        if (mySession != null){
+        if (mySession != null) {
             model.addAttribute("mySession", mySession);
             return "model";
         }
@@ -56,8 +56,8 @@ public class ClientController {
 
     @PostMapping("session/check")
     public String checkCreate(@RequestParam("checkName") String checkName,
-                              @RequestParam("sessionId") Long sessionId){
-        apiDbService.createCheck(checkName,sessionId);
+                              @RequestParam("sessionId") Long sessionId) {
+        apiDbService.createCheck(checkName, sessionId);
         return "redirect:/client/session/" + sessionId;
     }
 
@@ -95,18 +95,8 @@ public class ClientController {
         return "/payFact/updatePayFact";
     }
 
-    @PutMapping("/session/update/payfact/up")
-    public String updatePayFact(@ModelAttribute("payFact") PayFact payFact,
-                                @RequestParam("sessionId") Long sessionId,
-                                @RequestParam("tempUserid") Long tempUserid) {
-        TempUser tempUser = apiDbService.getTempUser(tempUserid);
-        payFact.setTempUser(tempUser);
-        apiDbService.updatePayFact(payFact);
-        return "redirect:/client/session/" + sessionId;
-    }
-
     @PostMapping("/calc/execute")
-    public String calculateSession(@RequestParam("sessionId") Long sessionId, Model model){
+    public String calculateSession(@RequestParam("sessionId") Long sessionId, Model model) {
         Session session = apiDbService.getSession(sessionId);
         List<Debt> debtList = apiCalculateService.calculate(session);
         System.out.println(debtList);
@@ -118,39 +108,59 @@ public class ClientController {
     @PostMapping("/product/create")
     public String productCreateButton(@RequestParam("checkId") Long checkId,
                                       @RequestParam("sessionId") Long sessionId,
-                                      Model model){
-        Session session = apiDbService.getSession(sessionId);
-        List<TempUser> members = session.getMembersList();
+                                      Model model) {
         ProductUsing productUsing = new ProductUsing();
         productUsing.setCheckId(checkId);
-        model.addAttribute("productUsing",productUsing);
+        model.addAttribute("productUsing", productUsing);
         model.addAttribute("checkId", checkId);
-        model.addAttribute("members",members);
-        model.addAttribute("sessionId",sessionId);
+        model.addAttribute("sessionId", sessionId);
         return "/productUsing/addProductUsing";
     }
 
     @PostMapping("/addProduct")
     public String productCreate(@ModelAttribute ProductUsing productUsing,
-                                @RequestParam("sessionId") Long sessionId){
+                                @RequestParam("sessionId") Long sessionId) {
         ProductUsingDTO pDTO = new ProductUsingDTO();
         pDTO.setCheckId(productUsing.getCheckId());
         pDTO.setProductName(productUsing.getProductName());
         pDTO.setCost(productUsing.getCost());
         pDTO.setTempUsers(new ArrayList<>());
         ProductUsing newProductUsing = apiDbService.addProductUsing(pDTO);
+        newProductUsing.setCheckId(productUsing.getCheckId());
         System.out.println(newProductUsing);
-        return "redirect:/client/session/"+sessionId;
+        return "redirect:/client/session/" + sessionId;
     }
 
-    @PostMapping("/addProduct/addUser")
-    public String addTempUserToProduct(@RequestParam("userId") Long userId,
-                                       @RequestParam("sessionId") Long sessionId,
-                                       @RequestParam("productUsingId") Long productUsingId){
-        System.out.println(userId);
-        TempUser tempUser = apiDbService.getTempUser(userId);
-        apiDbService.addTempUserToProduct(productUsingId,tempUser);
-        return "redirect:/client/session/"+sessionId;
+    @PostMapping("/updateProduct")
+    public String updateProductUsing(@RequestParam("sessionId") Long sessionId,
+                                     @RequestParam("productUsingId") Long productUsingId,
+                                     @RequestParam("checkId") Long checkId,
+                                     Model model) {
+        ProductUsing productUsing = apiDbService.getProductUsing(productUsingId);
+        productUsing.setCheckId(checkId);
+        System.out.println(productUsing);
+        model.addAttribute("productUsing", productUsing);
+        model.addAttribute("sessionId", sessionId);
+        return "/productUsing/updateProductUsing";
+    }
+
+    @PutMapping("/session/update/payfact/up")
+    public String updatePayFact(@ModelAttribute("payFact") PayFact payFact,
+                                @RequestParam("sessionId") Long sessionId,
+                                @RequestParam("tempUserid") Long tempUserid) {
+        TempUser tempUser = apiDbService.getTempUser(tempUserid);
+        payFact.setTempUser(tempUser);
+        apiDbService.updatePayFact(payFact);
+        return "redirect:/client/session/" + sessionId;
+    }
+
+    @PutMapping("/updateProduct/up")
+    public String updateProductUsing(@ModelAttribute("productUsing") ProductUsing productUsing,
+                                     @RequestParam("sessionId") Long sessionId) {
+        System.out.println("New This: "+productUsing);
+        System.out.println("SessionId="+sessionId);
+        apiDbService.updateProductUsing(productUsing);
+        return "redirect:/client/session/" + sessionId;
     }
 
     @DeleteMapping("/session/member/{id}")
@@ -160,7 +170,7 @@ public class ClientController {
     }
 
     @DeleteMapping("/session/check/{id}")
-    public String deleteCheck(@PathVariable Long id){
+    public String deleteCheck(@PathVariable Long id) {
         Long sessionId = apiDbService.deleteCheck(id);
         return "redirect:/client/session/" + sessionId;
     }
@@ -173,8 +183,23 @@ public class ClientController {
 
     @DeleteMapping("/deleteProduct/{id}")
     public String deleteProductUsing(@PathVariable(name = "id") Long productUsingId,
-                                     @RequestParam("sessionId") Long sessionId){
+                                     @RequestParam("sessionId") Long sessionId) {
         apiDbService.deleteProductUsing(productUsingId);
+        return "redirect:/client/session/" + sessionId;
+    }
+
+    @PostMapping("/productusing/addAndDelete")
+    public String handleForm(@RequestParam("action") String action,
+                             @RequestParam("sessionId") Long sessionId,
+                             @RequestParam("productUsingId") Long productUsingId,
+                             @RequestParam("userId") Long userId) {
+        if ("add".equals(action)) {
+            TempUser tempUser = apiDbService.getTempUser(userId);
+            apiDbService.addTempUserToProduct(productUsingId, tempUser);
+        } else if ("delete".equals(action)) {
+            TempUser tempUser = apiDbService.getTempUser(userId);
+            apiDbService.deleteTempUserFromProduct(productUsingId, tempUser);
+        }
         return "redirect:/client/session/" + sessionId;
     }
 }

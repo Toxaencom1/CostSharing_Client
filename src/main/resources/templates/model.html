@@ -116,7 +116,12 @@
                 <td th:text="${productU.productName}"></td>
                 <td th:text="${productU.cost}"></td>
                 <td>
-                    <button>Edit</button>
+                    <form th:action="@{/client/updateProduct}" method="post">
+                        <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
+                        <input type="hidden" name="productUsingId" th:value="${productU.id}"/>
+                        <input type="hidden" name="checkId" th:value="${check.id}"/>
+                        <button>Edit</button>
+                    </form>
                 </td>
                 <td>
                     <form th:action="@{/client/deleteProduct/{id}(id=${productU.id})}" method="post">
@@ -133,15 +138,18 @@
         <ul th:each="user : ${productU.getUsers()}" class="comma-list">
             <li th:utext="${user.firstname + ' ' + user.lastname}"></li>
         </ul> <br>
-        <form th:action="@{/client/addProduct/addUser}" method="post">
+        <form action="#" method="post" th:action="@{/client/productusing/addAndDelete}" th:method="post">
             <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
             <input type="hidden" name="productUsingId" th:value="${productU.id}"/>
             <select name="userId">
-                <option  th:each="user : ${mySession.membersList}"
-                         th:value="${user.id}"
-                         th:text="${user.firstname + ' ' + user.lastname}"></option>
+                <option th:each="user : ${mySession.membersList}"
+                        th:value="${user.id}"
+                        th:text="${user.firstname + ' ' + user.lastname}">
+                </option>
             </select>
-            <button>Add</button>
+            <button type="submit" name="action" value="add">Add</button>
+            <button type="submit" name="action" value="delete"
+                    onclick="return confirm('Are you sure you want to delete this user from product?')">Delete</button>
         </form>
 
     </div>
