@@ -1,11 +1,9 @@
 package com.taxah.diplom_client.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.taxah.diplom_client.model.calculate.Debt;
 import com.taxah.diplom_client.model.dataBase.*;
 import com.taxah.diplom_client.model.dataBase.dto.PayFactDTO;
 import com.taxah.diplom_client.model.dataBase.dto.ProductUsingDTO;
-import com.taxah.diplom_client.service.ClientService;
 import com.taxah.diplom_client.service.feign.CalculateFeign;
 import com.taxah.diplom_client.service.feign.DataBaseFeign;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +29,11 @@ public class ClientController {
     @GetMapping("/session/{id}")
     public String getSession(@PathVariable Long id, Model model) {
         Session mySession = apiDbService.getSession(id);
-        model.addAttribute("mySession", mySession);
-        return "model";
+        if (mySession != null){
+            model.addAttribute("mySession", mySession);
+            return "model";
+        }
+        return "home";
     }
 
     @PostMapping("/session/find")
@@ -64,24 +65,6 @@ public class ClientController {
     public String addMember(TempUser tempUser) {
         System.out.println(apiDbService.addGuestMember(tempUser));
         return "redirect:/client/session/" + tempUser.getSessionId();
-    }
-
-    @DeleteMapping("/session/member/{id}")
-    public String deleteMember(@PathVariable Long id) {
-        Long sessionId = apiDbService.deleteMember(id);
-        return "redirect:/client/session/" + sessionId;
-    }
-
-    @DeleteMapping("/session/check/{id}")
-    public String deleteCheck(@PathVariable Long id){
-        Long sessionId = apiDbService.deleteCheck(id);
-        return "redirect:/client/session/" + sessionId;
-    }
-
-    @DeleteMapping("/session/payfact/{id}")
-    public String deletePayFact(@PathVariable Long id) {
-        Long sessionId = apiDbService.deletePayFact(id);
-        return "redirect:/client/session/" + sessionId;
     }
 
     @PostMapping("/session/payfact")
@@ -146,6 +129,7 @@ public class ClientController {
         model.addAttribute("sessionId",sessionId);
         return "/productUsing/addProductUsing";
     }
+
     @PostMapping("/addProduct")
     public String productCreate(@ModelAttribute ProductUsing productUsing,
                                 @RequestParam("sessionId") Long sessionId){
@@ -158,6 +142,7 @@ public class ClientController {
         System.out.println(newProductUsing);
         return "redirect:/client/session/"+sessionId;
     }
+
     @PostMapping("/addProduct/addUser")
     public String addTempUserToProduct(@RequestParam("userId") Long userId,
                                        @RequestParam("sessionId") Long sessionId,
@@ -168,6 +153,28 @@ public class ClientController {
         return "redirect:/client/session/"+sessionId;
     }
 
+    @DeleteMapping("/session/member/{id}")
+    public String deleteMember(@PathVariable Long id) {
+        Long sessionId = apiDbService.deleteMember(id);
+        return "redirect:/client/session/" + sessionId;
+    }
 
+    @DeleteMapping("/session/check/{id}")
+    public String deleteCheck(@PathVariable Long id){
+        Long sessionId = apiDbService.deleteCheck(id);
+        return "redirect:/client/session/" + sessionId;
+    }
 
+    @DeleteMapping("/session/payfact/{id}")
+    public String deletePayFact(@PathVariable Long id) {
+        Long sessionId = apiDbService.deletePayFact(id);
+        return "redirect:/client/session/" + sessionId;
+    }
+
+    @DeleteMapping("/deleteProduct/{id}")
+    public String deleteProductUsing(@PathVariable(name = "id") Long productUsingId,
+                                     @RequestParam("sessionId") Long sessionId){
+        apiDbService.deleteProductUsing(productUsingId);
+        return "redirect:/client/session/" + sessionId;
+    }
 }

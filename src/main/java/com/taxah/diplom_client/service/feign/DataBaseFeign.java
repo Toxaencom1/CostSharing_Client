@@ -49,6 +49,9 @@ public interface DataBaseFeign {
     @DeleteMapping("/check/delete/{id}")
     Long deleteCheck(@PathVariable Long id);
 
+    @DeleteMapping("/productusing/delete/{id}")
+    void deleteProductUsing(@PathVariable(name = "id") Long productUsingId);
+
     @PutMapping("/payfact/update")
     PayFact updatePayFact(@RequestBody PayFact payFact);
 }
