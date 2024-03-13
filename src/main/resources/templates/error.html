@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/model.css">
+    <link rel="icon" href="/ico/balance.ico" type="image/x-icon">
+    <title>Error</title>
+</head>
+<body>
+    <h2>ERROR</h2>
+    <h2>Message: <span th:text="${error}">error</span></h2>
+    <button onclick="goBack()">Go back</button>
+</body>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</html>

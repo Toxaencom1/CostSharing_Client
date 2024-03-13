@@ -6,11 +6,14 @@ import com.taxah.diplom_client.model.dataBase.dto.PayFactDTO;
 import com.taxah.diplom_client.model.dataBase.dto.ProductUsingDTO;
 import com.taxah.diplom_client.service.feign.CalculateFeign;
 import com.taxah.diplom_client.service.feign.DataBaseFeign;
+import feign.FeignException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.HttpClientErrorException;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -97,12 +100,24 @@ public class ClientController {
 
     @PostMapping("/calc/execute")
     public String calculateSession(@RequestParam("sessionId") Long sessionId, Model model) {
-        Session session = apiDbService.getSession(sessionId);
-        List<Debt> debtList = apiCalculateService.calculate(session);
-        System.out.println(debtList);
-        model.addAttribute("mySession", session);
-        model.addAttribute("debtList", debtList);
-        return "result";
+        try {
+            Session session = apiDbService.getSession(sessionId);
+            apiCalculateService.validateSession(session);
+            List<Debt> debtList = apiCalculateService.calculate(session);
+            System.out.println(debtList);
+            model.addAttribute("mySession", session);
+            model.addAttribute("debtList", debtList);
+            return "result";
+        }catch (FeignException e){
+            model.addAttribute("error", extractBodyMessage(e.getMessage()));
+            return "error";
+        }
+    }
+
+    private String extractBodyMessage(String exceptionMessage){
+        String[] parts = exceptionMessage.split(":");
+        String finalErrorMessage = parts[parts.length - 1].trim();;
+        return finalErrorMessage.substring(1, finalErrorMessage.length() - 1);
     }
 
     @PostMapping("/product/create")
