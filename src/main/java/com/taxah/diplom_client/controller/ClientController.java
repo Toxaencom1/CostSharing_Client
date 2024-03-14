@@ -60,7 +60,7 @@ public class ClientController {
                                 Model model) {
         Session session = apiDbService.createSession(firstname, lastname, sessionName);
         model.addAttribute("mySession", session);
-        return "model";
+        return "redirect:/client/session/" + session.getId();
     }
 
     @PostMapping("/session/member/add")

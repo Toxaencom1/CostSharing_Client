@@ -20,7 +20,7 @@ public interface DataBaseFeign {
     @PostMapping("/session/create/{id}")
     Long createNewSession(@RequestBody List<TempUser> accounts, @PathVariable Long id);
 
-    @PostMapping("/session/create/")
+    @PostMapping("/session/create")
     Session createSession(@RequestParam("firstname") String firstname,
                           @RequestParam("lastname") String lastname,
                           @RequestParam("sessionName") String sessionName);
