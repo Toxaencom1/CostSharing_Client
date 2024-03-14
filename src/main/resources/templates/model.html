@@ -10,6 +10,8 @@
 <body>
 <div class="card">
     <h2>Session ID: <span th:text="${mySession.id}">id</span></h2>
+    <h2>Session Name: <span th:text="${mySession.name}">id</span></h2>
+    <h2>Session Date: <span th:text="${mySession.date}">id</span></h2>
     <!--<p>Admin ID: <span th:text="${mySession.adminId}">adminId</span></p>-->
 </div>
 
@@ -42,7 +44,8 @@
                 <form id="deleteMember" th:action="@{member/{id}(id=${member.id})}" method="post">
                     <input type="hidden" name="_method" value="DELETE"/>
                     <button type="submit" class="button_link"
-                            th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">Delete
+                            th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">
+                        Delete
                     </button>
                 </form>
             </td>
@@ -62,7 +65,8 @@
             <input type="hidden" name="checkId" th:value="${check.id}"/>
             <button type="submit"
                     th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''"
-                    th:if="${check.payFact == null}">Add</button>
+                    th:if="${check.payFact == null}">Add
+            </button>
             <br><br>
         </form>
         <table style="margin-left: 0;">
@@ -81,14 +85,16 @@
                         <input type="hidden" name="checkId" th:value="${check.id}"/>
                         <input type="hidden" name="payFactId" th:value="*{id}"/>
                         <button type="submit" th:if="${check.payFact != null}"
-                                th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Edit</button>
+                                th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Edit
+                        </button>
                     </form>
                 </td>
                 <td>
                     <form th:action="@{payfact/{id}(id=${check.payFact.id})}" method="post">
                         <input type="hidden" name="_method" value="DELETE"/>
                         <button type="submit"
-                                th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">Delete
+                                th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">
+                            Delete
                         </button>
                     </form>
                 </td>
@@ -104,7 +110,8 @@
         <input type="hidden" name="checkId" th:value="${check.id}"/>
         <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
         <label> Session:
-            <button type="submit" th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Add product</button>
+            <button type="submit" th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Add product
+            </button>
         </label>
     </form>
 
@@ -158,7 +165,8 @@
                 </option>
             </select>
             <button type="submit" name="action" value="add"
-                    th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Add</button>
+                    th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Add
+            </button>
             <button type="submit" name="action" value="delete"
                     th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">Delete
             </button>
@@ -170,7 +178,8 @@
     <br>
     <form th:action="@{/client/session/check/{id}(id=${check.id})}" method="post">
         <input type="hidden" name="_method" value="DELETE"/>
-        <button th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">Delete check
+        <button th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">Delete
+            check
         </button>
     </form>
 </div>
@@ -189,6 +198,13 @@
         <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
         <label> Session:
             <button type="submit">Calculate</button>
+        </label>
+    </form>
+</div>
+<div class="card">
+    <form th:action="@{/client}" method="get">
+        <label>
+            <button type="submit">Go back home</button>
         </label>
     </form>
 </div>

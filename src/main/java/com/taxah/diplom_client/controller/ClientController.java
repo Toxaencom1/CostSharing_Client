@@ -11,9 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.HttpClientErrorException;
 
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -47,15 +45,22 @@ public class ClientController {
         return "redirect:/client/session/" + id;
     }
 
-//    @GetMapping("/session/create")
-//    public String createSession(@RequestBody List<TempUser> users) {
-//        Long id = null;
-//        if (users.get(0) != null) {
-//            id = users.get(0).getId();
-//        }
-//        apiService.createNewSession(users, id);
-//        return "home";
-//    }
+    @PostMapping("/session/findByName")
+    public String findByName(@RequestParam("sessionName") String sessionName,Model model){
+        List<Session> sessions = apiDbService.findByName(sessionName);
+        model.addAttribute("sessions", sessions);
+        return "sessionList";
+    }
+
+    @PostMapping("/session/create")
+    public String createSession(@RequestParam("firstname") String firstname,
+                                @RequestParam("lastname") String lastname,
+                                @RequestParam("sessionName") String sessionName,
+                                Model model) {
+        Session session = apiDbService.createSession(firstname,lastname,sessionName);
+        model.addAttribute("mySession", session);
+        return "model";
+    }
 
     @PostMapping("session/check")
     public String checkCreate(@RequestParam("checkName") String checkName,
@@ -66,7 +71,7 @@ public class ClientController {
 
     @PostMapping("/session/add/temp_user")
     public String addMember(TempUser tempUser) {
-        System.out.println(apiDbService.addGuestMember(tempUser));
+        apiDbService.addGuestMember(tempUser);
         return "redirect:/client/session/" + tempUser.getSessionId();
     }
 
@@ -104,7 +109,6 @@ public class ClientController {
             Session session = apiDbService.getSession(sessionId);
             apiCalculateService.validateSession(session);
             List<Debt> debtList = apiCalculateService.calculate(session);
-            System.out.println(debtList);
             model.addAttribute("mySession", session);
             model.addAttribute("debtList", debtList);
             return "result";
@@ -142,7 +146,6 @@ public class ClientController {
         pDTO.setTempUsers(new ArrayList<>());
         ProductUsing newProductUsing = apiDbService.addProductUsing(pDTO);
         newProductUsing.setCheckId(productUsing.getCheckId());
-        System.out.println(newProductUsing);
         return "redirect:/client/session/" + sessionId;
     }
 
@@ -153,7 +156,6 @@ public class ClientController {
                                      Model model) {
         ProductUsing productUsing = apiDbService.getProductUsing(productUsingId);
         productUsing.setCheckId(checkId);
-        System.out.println(productUsing);
         model.addAttribute("productUsing", productUsing);
         model.addAttribute("sessionId", sessionId);
         return "/productUsing/updateProductUsing";
@@ -172,8 +174,6 @@ public class ClientController {
     @PutMapping("/updateProduct/up")
     public String updateProductUsing(@ModelAttribute("productUsing") ProductUsing productUsing,
                                      @RequestParam("sessionId") Long sessionId) {
-        System.out.println("New This: "+productUsing);
-        System.out.println("SessionId="+sessionId);
         apiDbService.updateProductUsing(productUsing);
         return "redirect:/client/session/" + sessionId;
     }

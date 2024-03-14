@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cost Sharing Session list</title>
+    <link rel="stylesheet" href="/css/model.css">
+    <link rel="icon" href="/ico/balance.ico" type="image/x-icon">
+</head>
+<body>
+<h2>Find by session name:</h2>
+<div class="card">
+    <table style="margin-left: 0;">
+        <tr>
+            <th>Session</th>
+            <th>Action</th>
+        </tr>
+        <tr th:each="mySession : ${sessions}">
+            <td th:text="${mySession.name + ' ' + mySession.date }"></td>
+            <td>
+                <form th:action="@{/client/session/{id}(id=${mySession.id})}">
+                    <button>Enter</button>
+                </form>
+            </td>
+        </tr>
+
+    </table>
+    <br><br>
+    <button onclick="goBack()">Go back</button>
+</div>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

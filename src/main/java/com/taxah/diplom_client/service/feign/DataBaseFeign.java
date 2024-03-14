@@ -13,6 +13,9 @@ public interface DataBaseFeign {
     @GetMapping("/session/{id}")
     Session getSession(@PathVariable Long id);
 
+    @GetMapping("/session/findByName")
+    List<Session> findByName(@RequestParam("sessionName") String sessionName);
+
     @GetMapping("/check/{id}")
     Check getCheck(@PathVariable Long id);
 
@@ -27,6 +30,11 @@ public interface DataBaseFeign {
 
     @PostMapping("/session/create/{id}")
     Long createNewSession(@RequestBody List<TempUser> accounts, @PathVariable Long id);
+
+    @PostMapping("/session/create/")
+    Session createSession(@RequestParam("firstname") String firstname,
+                          @RequestParam("lastname") String lastname,
+                          @RequestParam("sessionName") String sessionName);
 
     @PostMapping("/session/add/payfact")
     PayFact addPayFact(@RequestBody PayFactDTO p);
