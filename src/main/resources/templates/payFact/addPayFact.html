@@ -9,7 +9,7 @@
 <body>
 <h2>Pay Fact</h2>
     <form th:object="${mySession}" id="addPayFact"
-          th:action="@{/client/session/add/payfact}"
+          th:action="@{/client/payFact/add}"
           method="post">
         <select name="tempUserId">
             <option th:each="user : ${mySession.membersList}"

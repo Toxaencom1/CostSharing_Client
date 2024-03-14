@@ -10,7 +10,7 @@
 <h1>Create ProductUsing</h1>
 
 <div class="card">
-    <form th:action="@{/client/updateProduct/up}" th:object="${productUsing}" method="post">
+    <form th:action="@{/client/productUsing/update}" th:object="${productUsing}" method="post">
         <input type="hidden" name="_method" value="PUT">
         <input type="hidden" name="id" th:value="${productUsing.id}"/>
         <input type="hidden" name="checkId" th:value="${productUsing.checkId}" />

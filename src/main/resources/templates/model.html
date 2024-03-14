@@ -20,7 +20,7 @@
         <h2>Meeting members</h2>
     </div>
     <br><br>
-    <form th:object="${mySession}" action="/client/session/add/temp_user" method="post">
+    <form th:object="${mySession}" action="/client/session/member/add" method="post">
         <input type="hidden" name="id"/>
         <input type="text" name="firstname" placeholder="First name" required/>
         <input type="text" name="lastname" placeholder="Last name" required/>
@@ -41,7 +41,7 @@
             <td th:text="${member.firstname}">firstname</td>
             <td th:text="${member.lastname}">lastname</td>
             <td>
-                <form id="deleteMember" th:action="@{member/{id}(id=${member.id})}" method="post">
+                <form id="deleteMember" th:action="@{/client/session/member/delete/{id}(id=${member.id})}" method="post">
                     <input type="hidden" name="_method" value="DELETE"/>
                     <button type="submit" class="button_link"
                             th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">
@@ -60,7 +60,7 @@
 
         <h2>Check name: <span th:text="${check.name}"></span></h2>
         <h2>Pay fact</h2>
-        <form id="addPayFact" th:action="@{/client/session/payfact}" method="post">
+        <form id="addPayFact" th:action="@{/client/payFact}" method="post">
             <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
             <input type="hidden" name="checkId" th:value="${check.id}"/>
             <button type="submit"
@@ -80,7 +80,7 @@
                 <td th:text="*{tempUser.firstname+' '+tempUser.lastname}">firstname lastname</td>
                 <td th:text="*{amount}">amount</td>
                 <td>
-                    <form th:action="@{/client/session/update/payfact}" method="post">
+                    <form th:action="@{/client/payFact/update}" method="post">
                         <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
                         <input type="hidden" name="checkId" th:value="${check.id}"/>
                         <input type="hidden" name="payFactId" th:value="*{id}"/>
@@ -90,7 +90,7 @@
                     </form>
                 </td>
                 <td>
-                    <form th:action="@{payfact/{id}(id=${check.payFact.id})}" method="post">
+                    <form th:action="@{/client/payFact/{id}(id=${check.payFact.id})}" method="post">
                         <input type="hidden" name="_method" value="DELETE"/>
                         <button type="submit"
                                 th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">
@@ -106,7 +106,7 @@
     </div>
     <br>
 
-    <form th:action="@{/client/product/create}" method="post">
+    <form th:action="@{/client/productUsing/create}" method="post">
         <input type="hidden" name="checkId" th:value="${check.id}"/>
         <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
         <label> Session:
@@ -130,7 +130,7 @@
                 <td th:text="${productU.productName}"></td>
                 <td th:text="${productU.cost}"></td>
                 <td>
-                    <form th:action="@{/client/updateProduct}" method="post">
+                    <form th:action="@{/client/productUsing/update}" method="post">
                         <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
                         <input type="hidden" name="productUsingId" th:value="${productU.id}"/>
                         <input type="hidden" name="checkId" th:value="${check.id}"/>
@@ -138,7 +138,7 @@
                     </form>
                 </td>
                 <td>
-                    <form th:action="@{/client/deleteProduct/{id}(id=${productU.id})}" method="post">
+                    <form th:action="@{/client/productUsing/delete/{id}(id=${productU.id})}" method="post">
                         <input type="hidden" name="_method" value="DELETE"/>
                         <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
                         <button type="submit"
@@ -155,7 +155,7 @@
             <li th:utext="${user.firstname + ' ' + user.lastname}"></li>
         </ul>
         <br>
-        <form action="#" method="post" th:action="@{/client/productusing/addAndDelete}" th:method="post">
+        <form action="#" method="post" th:action="@{/client/productUsing/tempUser/addAndDelete}" th:method="post">
             <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
             <input type="hidden" name="productUsingId" th:value="${productU.id}"/>
             <select name="userId">
@@ -176,7 +176,7 @@
 
     <hr>
     <br>
-    <form th:action="@{/client/session/check/{id}(id=${check.id})}" method="post">
+    <form th:action="@{/client/check/{id}(id=${check.id})}" method="post">
         <input type="hidden" name="_method" value="DELETE"/>
         <button th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">Delete
             check
@@ -185,7 +185,7 @@
 </div>
 
 <div class="card">
-    <form th:object="${mySession}" action="/client/session/check" onsubmit="return validateForm()" method="post">
+    <form th:object="${mySession}" action="/client/check" onsubmit="return validateForm()" method="post">
         <input type="text" id="checkName" name="checkName" placeholder="Enter Check name">
         <input type="hidden" name="sessionId" th:value="${mySession.id}">
         <button th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Create Check</button>

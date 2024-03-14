@@ -22,6 +22,7 @@ public class ClientController {
     private final DataBaseFeign apiDbService;
     private final CalculateFeign apiCalculateService;
 
+    // region Session
     @GetMapping
     public String home() {
         return "home";
@@ -46,7 +47,7 @@ public class ClientController {
     }
 
     @PostMapping("/session/findByName")
-    public String findByName(@RequestParam("sessionName") String sessionName,Model model){
+    public String findByName(@RequestParam("sessionName") String sessionName, Model model) {
         List<Session> sessions = apiDbService.findByName(sessionName);
         model.addAttribute("sessions", sessions);
         return "sessionList";
@@ -57,25 +58,41 @@ public class ClientController {
                                 @RequestParam("lastname") String lastname,
                                 @RequestParam("sessionName") String sessionName,
                                 Model model) {
-        Session session = apiDbService.createSession(firstname,lastname,sessionName);
+        Session session = apiDbService.createSession(firstname, lastname, sessionName);
         model.addAttribute("mySession", session);
         return "model";
     }
 
-    @PostMapping("session/check")
+    @PostMapping("/session/member/add")
+    public String addMember(TempUser tempUser) {
+        apiDbService.addMember(tempUser);
+        return "redirect:/client/session/" + tempUser.getSessionId();
+    }
+
+    @DeleteMapping("/session/member/delete/{id}")
+    public String deleteMember(@PathVariable Long id) {
+        Long sessionId = apiDbService.deleteMember(id);
+        return "redirect:/client/session/" + sessionId;
+    }
+//endregion
+
+    // region Check
+    @PostMapping("/check")
     public String checkCreate(@RequestParam("checkName") String checkName,
                               @RequestParam("sessionId") Long sessionId) {
         apiDbService.createCheck(checkName, sessionId);
         return "redirect:/client/session/" + sessionId;
     }
 
-    @PostMapping("/session/add/temp_user")
-    public String addMember(TempUser tempUser) {
-        apiDbService.addGuestMember(tempUser);
-        return "redirect:/client/session/" + tempUser.getSessionId();
+    @DeleteMapping("/check/{id}")
+    public String deleteCheck(@PathVariable Long id) {
+        Long sessionId = apiDbService.deleteCheck(id);
+        return "redirect:/client/session/" + sessionId;
     }
+//endregion
 
-    @PostMapping("/session/payfact")
+    // region Pay fact
+    @PostMapping("/payFact")
     public String payFactFormAdd(@RequestParam("sessionId") Long sessionId,
                                  @RequestParam("checkId") Long checkId,
                                  Model model) {
@@ -85,13 +102,13 @@ public class ClientController {
         return "/payFact/addPayFact";
     }
 
-    @PostMapping("/session/add/payfact")
+    @PostMapping("/payFact/add")
     public String addPayFact(@ModelAttribute PayFactDTO payFactDTO, @RequestParam("sessionId") Long sessionId) {
         apiDbService.addPayFact(payFactDTO);
         return "redirect:/client/session/" + sessionId;
     }
 
-    @PostMapping("/session/update/payfact")
+    @PostMapping("/payFact/update")
     public String payFactFormUpdate(@RequestParam("sessionId") Long sessionId,
                                     @RequestParam("payFactId") Long payFactId,
                                     @RequestParam("checkId") Long checkId, Model model) {
@@ -103,28 +120,25 @@ public class ClientController {
         return "/payFact/updatePayFact";
     }
 
-    @PostMapping("/calc/execute")
-    public String calculateSession(@RequestParam("sessionId") Long sessionId, Model model) {
-        try {
-            Session session = apiDbService.getSession(sessionId);
-            apiCalculateService.validateSession(session);
-            List<Debt> debtList = apiCalculateService.calculate(session);
-            model.addAttribute("mySession", session);
-            model.addAttribute("debtList", debtList);
-            return "result";
-        }catch (FeignException e){
-            model.addAttribute("error", extractBodyMessage(e.getMessage()));
-            return "error";
-        }
+    @PutMapping("/payFact/update")
+    public String updatePayFact(@ModelAttribute("payFact") PayFact payFact,
+                                @RequestParam("sessionId") Long sessionId,
+                                @RequestParam("tempUserid") Long tempUserid) {
+        TempUser tempUser = apiDbService.getTempUser(tempUserid);
+        payFact.setTempUser(tempUser);
+        apiDbService.updatePayFact(payFact);
+        return "redirect:/client/session/" + sessionId;
     }
 
-    private String extractBodyMessage(String exceptionMessage){
-        String[] parts = exceptionMessage.split(":");
-        String finalErrorMessage = parts[parts.length - 1].trim();;
-        return finalErrorMessage.substring(1, finalErrorMessage.length() - 1);
+    @DeleteMapping("/payFact/{id}")
+    public String deletePayFact(@PathVariable Long id) {
+        Long sessionId = apiDbService.deletePayFact(id);
+        return "redirect:/client/session/" + sessionId;
     }
+//endregion
 
-    @PostMapping("/product/create")
+    // region Product using
+    @PostMapping("/productUsing/create")
     public String productCreateButton(@RequestParam("checkId") Long checkId,
                                       @RequestParam("sessionId") Long sessionId,
                                       Model model) {
@@ -136,7 +150,7 @@ public class ClientController {
         return "/productUsing/addProductUsing";
     }
 
-    @PostMapping("/addProduct")
+    @PostMapping("/productUsing/add")
     public String productCreate(@ModelAttribute ProductUsing productUsing,
                                 @RequestParam("sessionId") Long sessionId) {
         ProductUsingDTO pDTO = new ProductUsingDTO();
@@ -149,7 +163,7 @@ public class ClientController {
         return "redirect:/client/session/" + sessionId;
     }
 
-    @PostMapping("/updateProduct")
+    @PostMapping("/productUsing/update")
     public String updateProductUsing(@RequestParam("sessionId") Long sessionId,
                                      @RequestParam("productUsingId") Long productUsingId,
                                      @RequestParam("checkId") Long checkId,
@@ -161,53 +175,26 @@ public class ClientController {
         return "/productUsing/updateProductUsing";
     }
 
-    @PutMapping("/session/update/payfact/up")
-    public String updatePayFact(@ModelAttribute("payFact") PayFact payFact,
-                                @RequestParam("sessionId") Long sessionId,
-                                @RequestParam("tempUserid") Long tempUserid) {
-        TempUser tempUser = apiDbService.getTempUser(tempUserid);
-        payFact.setTempUser(tempUser);
-        apiDbService.updatePayFact(payFact);
-        return "redirect:/client/session/" + sessionId;
-    }
-
-    @PutMapping("/updateProduct/up")
+    @PutMapping("/productUsing/update")
     public String updateProductUsing(@ModelAttribute("productUsing") ProductUsing productUsing,
                                      @RequestParam("sessionId") Long sessionId) {
         apiDbService.updateProductUsing(productUsing);
         return "redirect:/client/session/" + sessionId;
     }
 
-    @DeleteMapping("/session/member/{id}")
-    public String deleteMember(@PathVariable Long id) {
-        Long sessionId = apiDbService.deleteMember(id);
-        return "redirect:/client/session/" + sessionId;
-    }
-
-    @DeleteMapping("/session/check/{id}")
-    public String deleteCheck(@PathVariable Long id) {
-        Long sessionId = apiDbService.deleteCheck(id);
-        return "redirect:/client/session/" + sessionId;
-    }
-
-    @DeleteMapping("/session/payfact/{id}")
-    public String deletePayFact(@PathVariable Long id) {
-        Long sessionId = apiDbService.deletePayFact(id);
-        return "redirect:/client/session/" + sessionId;
-    }
-
-    @DeleteMapping("/deleteProduct/{id}")
+    @DeleteMapping("/productUsing/delete/{id}")
     public String deleteProductUsing(@PathVariable(name = "id") Long productUsingId,
                                      @RequestParam("sessionId") Long sessionId) {
         apiDbService.deleteProductUsing(productUsingId);
         return "redirect:/client/session/" + sessionId;
     }
 
-    @PostMapping("/productusing/addAndDelete")
-    public String handleForm(@RequestParam("action") String action,
-                             @RequestParam("sessionId") Long sessionId,
-                             @RequestParam("productUsingId") Long productUsingId,
-                             @RequestParam("userId") Long userId) {
+    // region Temp user Product using
+    @PostMapping("/productUsing/tempUser/addAndDelete")
+    public String addAndDeleteTempUser(@RequestParam("action") String action,
+                                       @RequestParam("sessionId") Long sessionId,
+                                       @RequestParam("productUsingId") Long productUsingId,
+                                       @RequestParam("userId") Long userId) {
         if ("add".equals(action)) {
             TempUser tempUser = apiDbService.getTempUser(userId);
             apiDbService.addTempUserToProduct(productUsingId, tempUser);
@@ -217,4 +204,29 @@ public class ClientController {
         }
         return "redirect:/client/session/" + sessionId;
     }
+    //endregion
+//endregion
+
+    // region Other
+    @PostMapping("/calc/execute")
+    public String calculateSession(@RequestParam("sessionId") Long sessionId, Model model) {
+        try {
+            Session session = apiDbService.getSession(sessionId);
+            apiCalculateService.validateSession(session);
+            List<Debt> debtList = apiCalculateService.calculate(session);
+            model.addAttribute("mySession", session);
+            model.addAttribute("debtList", debtList);
+            return "result";
+        } catch (FeignException e) {
+            model.addAttribute("error", extractBodyMessage(e.getMessage()));
+            return "error";
+        }
+    }
+
+    private String extractBodyMessage(String exceptionMessage) {
+        String[] parts = exceptionMessage.split(":");
+        String finalErrorMessage = parts[parts.length - 1].trim();
+        return finalErrorMessage.substring(1, finalErrorMessage.length() - 1);
+    }
+//endregion
 }
