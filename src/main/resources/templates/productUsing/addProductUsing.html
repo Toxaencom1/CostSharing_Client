@@ -12,20 +12,28 @@
 <div class="card">
     <form th:action="@{/client/productUsing/add}" th:object="${productUsing}" method="post">
         <input type="hidden" name="sessionId" th:value="${sessionId}"/>
-        <input type="hidden" name="checkId" th:value="${productUsing.checkId}" />
+        <input type="hidden" name="checkId" th:value="${productUsing.checkId}"/>
         <div>
             <label>
-            <input type="text" name="productName" th:value="${productUsing.productName}" placeholder="Product Name" />
-               - Product Name</label>
+                <input type="text" name="productName" th:value="${productUsing.productName}" placeholder="Product Name"
+                       required/>
+                - Product Name</label>
         </div>
         <div>
             <label>
-            <input type="text" name="cost" th:value="${productUsing.cost}" placeholder="Cost" />
-               - Cost</label>
+                <input type="text" name="cost" th:value="${productUsing.cost}" placeholder="Cost" required/>
+                - Cost</label>
         </div>
+        <br>
         <button type="submit">Add Product</button>
+        <br><br>
+        <button onclick="goBack()">Go back</button>
     </form>
 </div>
-
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 </body>
 </html>

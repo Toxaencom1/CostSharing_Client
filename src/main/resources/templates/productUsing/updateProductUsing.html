@@ -13,21 +13,29 @@
     <form th:action="@{/client/productUsing/update}" th:object="${productUsing}" method="post">
         <input type="hidden" name="_method" value="PUT">
         <input type="hidden" name="id" th:value="${productUsing.id}"/>
-        <input type="hidden" name="checkId" th:value="${productUsing.checkId}" />
+        <input type="hidden" name="checkId" th:value="${productUsing.checkId}"/>
         <div>
             <label>
-            <input type="text" name="productName" th:value="${productUsing.productName}" placeholder="Product Name" />
-               - Product Name</label>
+                <input type="text" name="productName" th:value="${productUsing.productName}" placeholder="Product Name"
+                       required/>
+                - Product Name</label>
         </div>
         <div>
             <label>
-            <input type="text" name="cost" th:value="${productUsing.cost}" placeholder="Cost" />
-               - Cost</label>
+                <input type="text" name="cost" th:value="${productUsing.cost}" placeholder="Cost" required/>
+                - Cost</label>
         </div>
+        <br>
         <input type="hidden" name="sessionId" th:value="${sessionId}"/>
         <button type="submit">Update Product</button>
+        <br><br>
+        <button onclick="goBack()">Go back</button>
     </form>
 </div>
-
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 </body>
 </html>

@@ -11,10 +11,12 @@
 <div class="card">
     <table style="margin-left: 0;">
         <tr>
+            <th>Id</th>
             <th>Session</th>
             <th>Action</th>
         </tr>
         <tr th:each="mySession : ${sessions}">
+            <td th:text="${mySession.id}"></td>
             <td th:text="${mySession.name + ' ' + mySession.date }"></td>
             <td>
                 <form th:action="@{/client/session/{id}(id=${mySession.id})}">
