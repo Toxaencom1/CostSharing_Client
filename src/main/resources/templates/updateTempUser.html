@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cost Sharing Update Temp User</title>
+    <link rel="stylesheet" href="/css/model.css">
+    <link rel="icon" href="/ico/balance.ico" type="image/x-icon">
+</head>
+<body>
+<h2>Update User</h2>
+<form th:action="@{/client/tempUser/update}" method="post">
+    <input type="hidden" name="_method" value="PUT">
+    <input type="hidden" name="id" th:value="${tempUser.id}">
+    <input type="text" name="firstname" th:value="${tempUser.firstname}" required>
+    <input type="text" name="lastname" th:value="${tempUser.lastname}" required><br><br>
+    <input type="hidden" name="sessionId" th:value="${tempUser.sessionId}">
+    <button type="submit">Edit</button>
+</form>
+<br>
+<button onclick="goBack()">Go back</button>
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
+</body>
+</html>

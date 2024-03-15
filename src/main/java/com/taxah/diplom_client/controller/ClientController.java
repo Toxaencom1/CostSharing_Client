@@ -99,7 +99,7 @@ public class ClientController {
         Session mySession = apiDbService.getSession(sessionId);
         model.addAttribute("mySession", mySession);
         model.addAttribute("checkId", checkId);
-        return "/payFact/addPayFact";
+        return "payFact/addPayFact";
     }
 
     @PostMapping("/payFact/add")
@@ -117,7 +117,7 @@ public class ClientController {
         payFact.setCheckId(checkId);
         model.addAttribute("mySession", session);
         model.addAttribute("payFact", payFact);
-        return "/payFact/updatePayFact";
+        return "payFact/updatePayFact";
     }
 
     @PutMapping("/payFact/update")
@@ -147,7 +147,7 @@ public class ClientController {
         model.addAttribute("productUsing", productUsing);
         model.addAttribute("checkId", checkId);
         model.addAttribute("sessionId", sessionId);
-        return "/productUsing/addProductUsing";
+        return "productUsing/addProductUsing";
     }
 
     @PostMapping("/productUsing/add")
@@ -172,7 +172,7 @@ public class ClientController {
         productUsing.setCheckId(checkId);
         model.addAttribute("productUsing", productUsing);
         model.addAttribute("sessionId", sessionId);
-        return "/productUsing/updateProductUsing";
+        return "productUsing/updateProductUsing";
     }
 
     @PutMapping("/productUsing/update")
@@ -203,6 +203,19 @@ public class ClientController {
             apiDbService.deleteTempUserFromProduct(productUsingId, tempUser);
         }
         return "redirect:/client/session/" + sessionId;
+    }
+
+    @PostMapping("/tempUser/update")
+    public String updateTempUserButton(TempUser tempUser,
+                                       Model model) {
+        model.addAttribute("tempUser", tempUser);
+        return "updateTempUser";
+    }
+
+    @PutMapping("/tempUser/update")
+    public String updateTempUser(TempUser tempUser){
+        apiDbService.updateMember(tempUser.getId(),tempUser);
+        return "redirect:/client/session/" + tempUser.getSessionId();
     }
     //endregion
 //endregion

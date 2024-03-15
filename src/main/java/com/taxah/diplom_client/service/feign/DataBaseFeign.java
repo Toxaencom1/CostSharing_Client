@@ -78,6 +78,9 @@ public interface DataBaseFeign {
     @DeleteMapping("/tempUser/member/delete/{id}")
     Long deleteMember(@PathVariable Long id);
 
+    @PutMapping("/tempUser/member/update/{id}")
+    Long updateMember(@PathVariable Long id, @RequestBody TempUser tempUser);
+
     @PostMapping("/tempUser/add/{productUsingId}")
     Long addTempUserToProduct(@PathVariable Long productUsingId, @RequestBody TempUser tempUser);
 

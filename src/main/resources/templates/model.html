@@ -41,6 +41,15 @@
             <td th:text="${member.firstname}">firstname</td>
             <td th:text="${member.lastname}">lastname</td>
             <td>
+                <form th:object="${member}" th:action="@{/client/tempUser/update}" method="post">
+                    <input type="hidden" name="id" th:value="${member.id}">
+                    <input type="hidden" name="firstname" th:value="${member.firstname}">
+                    <input type="hidden" name="lastname" th:value="${member.lastname}">
+                    <input type="hidden" name="sessionId" th:value="${mySession.id}">
+                    <button>Edit</button>
+                </form>
+            </td>
+            <td>
                 <form id="deleteMember" th:action="@{/client/session/member/delete/{id}(id=${member.id})}" method="post">
                     <input type="hidden" name="_method" value="DELETE"/>
                     <button type="submit" class="button_link"
