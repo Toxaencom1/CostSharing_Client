@@ -46,7 +46,7 @@
                     <input type="hidden" name="firstname" th:value="${member.firstname}">
                     <input type="hidden" name="lastname" th:value="${member.lastname}">
                     <input type="hidden" name="sessionId" th:value="${mySession.id}">
-                    <button>Edit</button>
+                    <button th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Edit</button>
                 </form>
             </td>
             <td>
@@ -172,13 +172,18 @@
                         th:value="${user.id}"
                         th:text="${user.firstname + ' ' + user.lastname}">
                 </option>
-            </select>
+            </select><br><br>
             <button type="submit" name="action" value="add"
                     th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Add
             </button>
             <button type="submit" name="action" value="delete"
                     th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">Delete
             </button>
+        </form><br>
+        <form th:action="@{/client/productUsing/tempUser/addAll}" method="post">
+            <input type="hidden" name="productUsingId" th:value="${productU.id}">
+            <input type="hidden" name="sessionId" th:value="${mySession.id}">
+            <button th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmAddAll();'">Add all members</button>
         </form>
 
     </div>
@@ -237,6 +242,9 @@
 
     function confirmDelete() {
         return confirm('Are you sure you want to delete?');
+    }
+    function confirmAddAll() {
+        return confirm('Are you sure you want to add all members?');
     }
 </script>
 

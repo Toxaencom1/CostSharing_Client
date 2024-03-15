@@ -84,6 +84,10 @@ public interface DataBaseFeign {
     @PostMapping("/tempUser/add/{productUsingId}")
     Long addTempUserToProduct(@PathVariable Long productUsingId, @RequestBody TempUser tempUser);
 
+    @PostMapping("/tempUser/addAll/{productUsingId}")
+    Long addAllMembersToProduct(@PathVariable Long productUsingId,
+                                @RequestParam("sessionId") Long sessionId);
+
     @DeleteMapping("/tempUser/delete/{productUsingId}")
     void deleteTempUserFromProduct(@PathVariable Long productUsingId,
                                    @RequestBody TempUser tempUser);

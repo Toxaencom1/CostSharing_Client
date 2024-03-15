@@ -205,6 +205,13 @@ public class ClientController {
         return "redirect:/client/session/" + sessionId;
     }
 
+    @PostMapping("/productUsing/tempUser/addAll")
+    public String addAllMembersToProductUsing(@RequestParam("productUsingId") Long productUsingId,
+                                              @RequestParam("sessionId") Long sessionId){
+        apiDbService.addAllMembersToProduct(productUsingId,sessionId);
+        return "redirect:/client/session/" + sessionId;
+    }
+
     @PostMapping("/tempUser/update")
     public String updateTempUserButton(TempUser tempUser,
                                        Model model) {
