@@ -1,7 +1,14 @@
 @media (min-width: 1024px) {
-    .comma-list {
+    ul  {
+        list-style-type: none;
         display: inline-block;
+        padding: 2px;
     }
+
+    li {
+        margin-bottom: 1px;
+    }
+
 
     hr {
         border: none;
@@ -81,8 +88,14 @@
 }
 
 @media (max-width: 1024px) {
-    .comma-list {
+    ul  {
+        list-style-type: none;
         display: inline-block;
+        padding: 2px;
+    }
+
+    li {
+        margin-bottom: 1px;
     }
 
     hr {

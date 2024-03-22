@@ -25,7 +25,7 @@
         <input type="text" name="firstname" placeholder="First name" required/>
         <input type="text" name="lastname" placeholder="Last name" required/>
         <input type="hidden" name="sessionId" th:value="${mySession.id}"/><br><br>
-        <button type="submit" th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Add guest</button>
+        <button type="submit" th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Add member</button>
         <br><br>
     </form>
     <table style="margin-left: 0;">
@@ -50,7 +50,8 @@
                 </form>
             </td>
             <td>
-                <form id="deleteMember" th:action="@{/client/session/member/delete/{id}(id=${member.id})}" method="post">
+                <form id="deleteMember" th:action="@{/client/session/member/delete/{id}(id=${member.id})}"
+                      method="post">
                     <input type="hidden" name="_method" value="DELETE"/>
                     <button type="submit" class="button_link"
                             th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">
@@ -126,66 +127,75 @@
 
     <div th:each="productU, iterStat : ${check.productUsingList}">
         <hr>
-        <table style="margin-left: 0;">
-            <tr>
-                <th>№</th>
-                <th>Product</th>
-                <th>Cost</th>
-                <th></th>
-                <th></th>
-            </tr>
-            <tr>
-                <td th:text="${iterStat.count}"></td>
-                <td th:text="${productU.productName}"></td>
-                <td th:text="${productU.cost}"></td>
-                <td>
-                    <form th:action="@{/client/productUsing/update}" method="post">
-                        <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
-                        <input type="hidden" name="productUsingId" th:value="${productU.id}"/>
-                        <input type="hidden" name="checkId" th:value="${check.id}"/>
-                        <button th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Edit</button>
-                    </form>
-                </td>
-                <td>
-                    <form th:action="@{/client/productUsing/delete/{id}(id=${productU.id})}" method="post">
-                        <input type="hidden" name="_method" value="DELETE"/>
-                        <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
-                        <button type="submit"
-                                th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">
-                            Delete
-                        </button>
-                    </form>
-                </td>
-            </tr>
-        </table>
-        <br>
-
-        <ul th:each="user : ${productU.getUsers()}" class="comma-list">
-            <li th:utext="${user.firstname + ' ' + user.lastname}"></li>
-        </ul>
-        <br>
-        <form action="#" method="post" th:action="@{/client/productUsing/tempUser/addAndDelete}" th:method="post">
-            <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
-            <input type="hidden" name="productUsingId" th:value="${productU.id}"/>
-            <select name="userId">
-                <option th:each="user : ${mySession.membersList}"
-                        th:value="${user.id}"
-                        th:text="${user.firstname + ' ' + user.lastname}">
-                </option>
-            </select><br><br>
-            <button type="submit" name="action" value="add"
-                    th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Add
-            </button>
-            <button type="submit" name="action" value="delete"
-                    th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">Delete
-            </button>
-        </form><br>
-        <form th:action="@{/client/productUsing/tempUser/addAll}" method="post">
-            <input type="hidden" name="productUsingId" th:value="${productU.id}">
-            <input type="hidden" name="sessionId" th:value="${mySession.id}">
-            <button th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmAddAll();'">Add all members</button>
-        </form>
-
+        <div class="card2">
+            <div class="card2">
+                <table style="margin-left: 0;">
+                    <tr>
+                        <th>№</th>
+                        <th>Product</th>
+                        <th>Cost</th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    <tr>
+                        <td th:text="${iterStat.count}"></td>
+                        <td th:text="${productU.productName}"></td>
+                        <td th:text="${productU.cost}"></td>
+                        <td>
+                            <form th:action="@{/client/productUsing/update}" method="post">
+                                <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
+                                <input type="hidden" name="productUsingId" th:value="${productU.id}"/>
+                                <input type="hidden" name="checkId" th:value="${check.id}"/>
+                                <button th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Edit
+                                </button>
+                            </form>
+                        </td>
+                        <td>
+                            <form th:action="@{/client/productUsing/delete/{id}(id=${productU.id})}" method="post">
+                                <input type="hidden" name="_method" value="DELETE"/>
+                                <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
+                                <button type="submit"
+                                        th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">
+                                    Delete
+                                </button>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+                <br>
+                <ul th:each="user : ${productU.getUsers()}" >
+                    <li th:utext="${user.firstname + ' ' + user.lastname}"></li>
+                </ul>
+                <br>
+            </div>
+            <br><br>
+            <form action="#" method="post" th:action="@{/client/productUsing/tempUser/addAndDelete}" th:method="post">
+                <input type="hidden" name="sessionId" th:value="${mySession.id}"/>
+                <input type="hidden" name="productUsingId" th:value="${productU.id}"/>
+                <select name="userId">
+                    <option th:each="user : ${mySession.membersList}"
+                            th:value="${user.id}"
+                            th:text="${user.firstname + ' ' + user.lastname}">
+                    </option>
+                </select>
+                <button type="submit" name="action" value="add"
+                        th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : ''">Add
+                </button>
+                <button type="submit" name="action" value="delete"
+                        th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmDelete();'">
+                    Delete
+                </button>
+            </form>
+            <br>
+            <form th:action="@{/client/productUsing/tempUser/addAll}" method="post">
+                <input type="hidden" name="productUsingId" th:value="${productU.id}">
+                <input type="hidden" name="sessionId" th:value="${mySession.id}">
+                <button th:onclick="${mySession.isClosed} ? 'showAlert(); return false;' : 'return confirmAddAll();'">
+                    Add
+                    all members
+                </button>
+            </form>
+        </div>
     </div>
 
     <hr>
@@ -243,6 +253,7 @@
     function confirmDelete() {
         return confirm('Are you sure you want to delete?');
     }
+
     function confirmAddAll() {
         return confirm('Are you sure you want to add all members?');
     }
