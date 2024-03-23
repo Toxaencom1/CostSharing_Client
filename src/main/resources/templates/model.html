@@ -87,7 +87,7 @@
                 <th>Delete</th>
             </tr>
             <tr th:if="${check.payFact != null}" th:object="${check.payFact}">
-                <td th:text="*{tempUser.firstname+' '+tempUser.lastname}">firstname lastname</td>
+                <td> <span class="likeButton" th:text="*{tempUser.firstname+' '+tempUser.lastname}">firstname lastname</span></td>
                 <td th:text="*{amount}">amount</td>
                 <td>
                     <form th:action="@{/client/payFact/update}" method="post">
