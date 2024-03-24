@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for working with Rest API check
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

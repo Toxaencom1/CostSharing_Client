@@ -8,6 +8,33 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+/**
+ * Feign Interface for working with the DataBase service
+ * <p>
+ * getSession(Long id): Retrieves a session with the given ID.
+ * findByName(String sessionName): Finds all sessions with the given name.
+ * createNewSession(List<TempUser> accounts, Long id): Creates a new session with the given list of temporary users and ID.
+ * createSession(String firstname, String lastname, String sessionName): Creates a new session with the given first name, last name, and session name.
+ * addUser(User user): Adds a new user to the database.
+ * getCheck(Long id): Retrieves a check with the given ID.
+ * createCheck(String name, Long sessionId): Creates a new check with the given name and session ID.
+ * deleteCheck(Long checkId): Deletes a check with the given ID.
+ * getPayFact(Long id): Retrieves a pay fact with the given ID.
+ * addPayFact(PayFactDTO p): Adds a new pay fact to the database.
+ * deletePayFact(Long id): Deletes a pay fact with the given ID.
+ * updatePayFact(PayFact payFact): Updates an existing pay fact in the database.
+ * getProductUsing(Long id): Retrieves a product usage record with the given ID.
+ * addProductUsing(ProductUsingDTO p): Adds a new product usage record to the database.
+ * deleteProductUsing(Long productUsingId): Deletes a product usage record with the given ID.
+ * updateProductUsing(ProductUsing productUsing): Updates an existing product usage record in the database.
+ * getTempUser(Long id): Retrieves a temporary user with the given ID.
+ * addMember(TempUser tempUser): Adds a new temporary user to the database.
+ * deleteMember(Long id): Deletes a temporary user with the given ID.
+ * updateMember(Long id, TempUser tempUser): Updates an existing temporary user in the database.
+ * addTempUserToProduct(Long productUsingId, TempUser tempUser): Adds a temporary user to a product usage record.
+ * addAllMembersToProduct(Long productUsingId, Long sessionId): Adds all temporary users from a session to a product usage record.
+ * deleteTempUserFromProduct(Long productUsingId, TempUser tempUser): Removes a temporary user from a product usage record.
+ */
 @FeignClient(name = "DataBase", url = "http://localhost:8765/db/")
 public interface DataBaseFeign {
     // region Session

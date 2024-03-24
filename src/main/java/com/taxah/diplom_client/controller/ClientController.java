@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Controller for working with the client page.
+ */
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/client")
@@ -23,11 +26,24 @@ public class ClientController {
     private final CalculateFeign apiCalculateService;
 
     // region Session
+
+    /**
+     * Home page.
+     *
+     * @return the home page
+     */
     @GetMapping
     public String home() {
         return "home";
     }
 
+    /**
+     * Get session by id.
+     *
+     * @param id    the session id
+     * @param model the model
+     * @return the session page
+     */
     @GetMapping("/session/{id}")
     public String getSession(@PathVariable Long id, Model model) {
         Session mySession = apiDbService.getSession(id);
@@ -38,6 +54,12 @@ public class ClientController {
         return "home";
     }
 
+    /**
+     * Find session by id.
+     *
+     * @param id the session id
+     * @return the session page
+     */
     @PostMapping("/session/find")
     public String findSession(@RequestParam("id") Long id) {
         if (id == null) {
@@ -46,6 +68,13 @@ public class ClientController {
         return "redirect:/client/session/" + id;
     }
 
+    /**
+     * Find session by name. Ignore case.
+     *
+     * @param sessionName the session name
+     * @param model       the model
+     * @return the session list page
+     */
     @PostMapping("/session/findByName")
     public String findByName(@RequestParam("sessionName") String sessionName, Model model) {
         List<Session> sessions = apiDbService.findByName(sessionName);
@@ -53,6 +82,15 @@ public class ClientController {
         return "sessionList";
     }
 
+    /**
+     * Create session.
+     *
+     * @param firstname   the first name
+     * @param lastname    the last name
+     * @param sessionName the session name
+     * @param model       the model
+     * @return the session page
+     */
     @PostMapping("/session/create")
     public String createSession(@RequestParam("firstname") String firstname,
                                 @RequestParam("lastname") String lastname,
@@ -63,12 +101,24 @@ public class ClientController {
         return "redirect:/client/session/" + session.getId();
     }
 
+    /**
+     * Add member to meeting members list.
+     *
+     * @param tempUser the member
+     * @return the session page
+     */
     @PostMapping("/session/member/add")
     public String addMember(TempUser tempUser) {
         apiDbService.addMember(tempUser);
         return "redirect:/client/session/" + tempUser.getSessionId();
     }
 
+    /**
+     * Delete member from meeting members list.
+     *
+     * @param id the member id
+     * @return the session page
+     */
     @DeleteMapping("/session/member/delete/{id}")
     public String deleteMember(@PathVariable Long id) {
         Long sessionId = apiDbService.deleteMember(id);
@@ -77,6 +127,14 @@ public class ClientController {
 //endregion
 
     // region Check
+
+    /**
+     * Create check with the specified name and session id.
+     *
+     * @param checkName check name
+     * @param sessionId session id
+     * @return the session page
+     */
     @PostMapping("/check")
     public String checkCreate(@RequestParam("checkName") String checkName,
                               @RequestParam("sessionId") Long sessionId) {
@@ -84,6 +142,12 @@ public class ClientController {
         return "redirect:/client/session/" + sessionId;
     }
 
+    /**
+     * Delete check by id.
+     *
+     * @param id check id
+     * @return the session page
+     */
     @DeleteMapping("/check/{id}")
     public String deleteCheck(@PathVariable Long id) {
         Long sessionId = apiDbService.deleteCheck(id);
@@ -92,6 +156,15 @@ public class ClientController {
 //endregion
 
     // region Pay fact
+
+    /**
+     * Represents the add pay fact page.
+     *
+     * @param sessionId session id
+     * @param checkId   check id
+     * @param model     the model
+     * @return the add pay fact page
+     */
     @PostMapping("/payFact")
     public String payFactFormAdd(@RequestParam("sessionId") Long sessionId,
                                  @RequestParam("checkId") Long checkId,
@@ -102,12 +175,28 @@ public class ClientController {
         return "payFact/addPayFact";
     }
 
+    /**
+     * Add pay fact.
+     *
+     * @param payFactDTO pay fact data
+     * @param sessionId  session id
+     * @return the session page
+     */
     @PostMapping("/payFact/add")
     public String addPayFact(@ModelAttribute PayFactDTO payFactDTO, @RequestParam("sessionId") Long sessionId) {
         apiDbService.addPayFact(payFactDTO);
         return "redirect:/client/session/" + sessionId;
     }
 
+    /**
+     * Represents the update pay fact page.
+     *
+     * @param sessionId session id
+     * @param payFactId pay fact id
+     * @param checkId   check id
+     * @param model     the model
+     * @return the update pay fact page
+     */
     @PostMapping("/payFact/update")
     public String payFactFormUpdate(@RequestParam("sessionId") Long sessionId,
                                     @RequestParam("payFactId") Long payFactId,
@@ -120,6 +209,14 @@ public class ClientController {
         return "payFact/updatePayFact";
     }
 
+    /**
+     * Update pay fact.
+     *
+     * @param payFact    pay fact data
+     * @param sessionId  session id
+     * @param tempUserid temp user id
+     * @return the session page
+     */
     @PutMapping("/payFact/update")
     public String updatePayFact(@ModelAttribute("payFact") PayFact payFact,
                                 @RequestParam("sessionId") Long sessionId,
@@ -130,6 +227,12 @@ public class ClientController {
         return "redirect:/client/session/" + sessionId;
     }
 
+    /**
+     * Delete pay fact by id.
+     *
+     * @param id pay fact id
+     * @return the session page
+     */
     @DeleteMapping("/payFact/{id}")
     public String deletePayFact(@PathVariable Long id) {
         Long sessionId = apiDbService.deletePayFact(id);
@@ -138,6 +241,15 @@ public class ClientController {
 //endregion
 
     // region Product using
+
+    /**
+     * Represents the create product using page.
+     *
+     * @param checkId   check id
+     * @param sessionId session id
+     * @param model     the model
+     * @return the create product using page
+     */
     @PostMapping("/productUsing/create")
     public String productCreateButton(@RequestParam("checkId") Long checkId,
                                       @RequestParam("sessionId") Long sessionId,
@@ -150,6 +262,13 @@ public class ClientController {
         return "productUsing/addProductUsing";
     }
 
+    /**
+     * Create product using.
+     *
+     * @param productUsing product using data
+     * @param sessionId    session id
+     * @return the session page
+     */
     @PostMapping("/productUsing/add")
     public String productCreate(@ModelAttribute ProductUsing productUsing,
                                 @RequestParam("sessionId") Long sessionId) {
@@ -163,6 +282,15 @@ public class ClientController {
         return "redirect:/client/session/" + sessionId;
     }
 
+    /**
+     * Represents the update product using page.
+     *
+     * @param sessionId      session id
+     * @param productUsingId product using id
+     * @param checkId        check id
+     * @param model          the model
+     * @return the update product using page
+     */
     @PostMapping("/productUsing/update")
     public String updateProductUsing(@RequestParam("sessionId") Long sessionId,
                                      @RequestParam("productUsingId") Long productUsingId,
@@ -175,6 +303,13 @@ public class ClientController {
         return "productUsing/updateProductUsing";
     }
 
+    /**
+     * Update product using.
+     *
+     * @param productUsing product using data
+     * @param sessionId    session id
+     * @return the session page
+     */
     @PutMapping("/productUsing/update")
     public String updateProductUsing(@ModelAttribute("productUsing") ProductUsing productUsing,
                                      @RequestParam("sessionId") Long sessionId) {
@@ -182,6 +317,13 @@ public class ClientController {
         return "redirect:/client/session/" + sessionId;
     }
 
+    /**
+     * Delete product using by id.
+     *
+     * @param productUsingId product using id
+     * @param sessionId      session id
+     * @return the session page
+     */
     @DeleteMapping("/productUsing/delete/{id}")
     public String deleteProductUsing(@PathVariable(name = "id") Long productUsingId,
                                      @RequestParam("sessionId") Long sessionId) {
@@ -190,6 +332,16 @@ public class ClientController {
     }
 
     // region Temp user Product using
+
+    /**
+     * Add or delete temp user to/from product using list.
+     *
+     * @param action         action
+     * @param sessionId      session id
+     * @param productUsingId product using id
+     * @param userId         user id
+     * @return the session page
+     */
     @PostMapping("/productUsing/tempUser/addAndDelete")
     public String addAndDeleteTempUser(@RequestParam("action") String action,
                                        @RequestParam("sessionId") Long sessionId,
@@ -205,13 +357,27 @@ public class ClientController {
         return "redirect:/client/session/" + sessionId;
     }
 
+    /**
+     * Add all members to product using list.
+     *
+     * @param productUsingId product using id
+     * @param sessionId      session id
+     * @return the session page
+     */
     @PostMapping("/productUsing/tempUser/addAll")
     public String addAllMembersToProductUsing(@RequestParam("productUsingId") Long productUsingId,
-                                              @RequestParam("sessionId") Long sessionId){
-        apiDbService.addAllMembersToProduct(productUsingId,sessionId);
+                                              @RequestParam("sessionId") Long sessionId) {
+        apiDbService.addAllMembersToProduct(productUsingId, sessionId);
         return "redirect:/client/session/" + sessionId;
     }
 
+    /**
+     * Represents the add temp user to product using page.
+     *
+     * @param tempUser the temp user
+     * @param model    the model
+     * @return the add temp user to product using page
+     */
     @PostMapping("/tempUser/update")
     public String updateTempUserButton(TempUser tempUser,
                                        Model model) {
@@ -219,15 +385,29 @@ public class ClientController {
         return "updateTempUser";
     }
 
+    /**
+     * Update temp user.
+     *
+     * @param tempUser temp user data
+     * @return the session page
+     */
     @PutMapping("/tempUser/update")
-    public String updateTempUser(TempUser tempUser){
-        apiDbService.updateMember(tempUser.getId(),tempUser);
+    public String updateTempUser(TempUser tempUser) {
+        apiDbService.updateMember(tempUser.getId(), tempUser);
         return "redirect:/client/session/" + tempUser.getSessionId();
     }
     //endregion
 //endregion
 
     // region Other
+
+    /**
+     * This method get and check session and then Calculate debts.
+     *
+     * @param sessionId session id
+     * @param model     the model
+     * @return the result page
+     */
     @PostMapping("/calc/execute")
     public String calculateSession(@RequestParam("sessionId") Long sessionId, Model model) {
         try {
@@ -243,6 +423,12 @@ public class ClientController {
         }
     }
 
+    /**
+     * This is auxiliary method for extracting the message from the exception.
+     *
+     * @param exceptionMessage exception message
+     * @return the extracted message
+     */
     private String extractBodyMessage(String exceptionMessage) {
         String[] parts = exceptionMessage.split(":");
         String finalErrorMessage = parts[parts.length - 1].trim();

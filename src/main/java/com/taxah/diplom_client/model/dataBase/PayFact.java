@@ -1,17 +1,16 @@
 package com.taxah.diplom_client.model.dataBase;
 
-
-import com.fasterxml.jackson.annotation.JsonIdentityReference;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 
+/**
+ * Class for working with Rest API PayFact
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class PayFact {
     private Long id;
     private Long checkId;

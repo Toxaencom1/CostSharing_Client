@@ -7,9 +7,12 @@ import lombok.Data;
 
 import java.util.Map;
 
+/**
+ * Class for working with Rest API Calculate Debt
+ */
 @Data
 @AllArgsConstructor
 public class Debt {
     private TempUser toWhom;
-    private Map<String,Double> debtors;
+    private Map<String, Double> debtors;
 }

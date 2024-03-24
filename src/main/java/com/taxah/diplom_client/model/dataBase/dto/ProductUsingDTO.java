@@ -7,7 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-
+/**
+ * Data transfer object for ProductUsing
+ */
 @Data
 @NoArgsConstructor
 public class ProductUsingDTO {

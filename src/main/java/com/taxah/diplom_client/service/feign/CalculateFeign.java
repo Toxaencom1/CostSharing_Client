@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
+/**
+ * Feign Interface for working with the CalculateSession service
+ */
 @FeignClient(name = "CalculateSession", url = "http://localhost:8765/calc/")
 public interface CalculateFeign {
 

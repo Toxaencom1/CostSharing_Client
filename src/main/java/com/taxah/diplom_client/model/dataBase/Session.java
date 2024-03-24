@@ -8,6 +8,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Class for working with Rest API Session
+ */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
