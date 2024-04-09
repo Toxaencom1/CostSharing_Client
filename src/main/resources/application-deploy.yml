@@ -10,5 +10,5 @@ spring:
         enabled: true
 
 path:
-  database: localhost
-  calculate: localhost
+  database: apigateway
+  calculate: apigateway

@@ -35,7 +35,7 @@ import java.util.List;
  * addAllMembersToProduct(Long productUsingId, Long sessionId): Adds all temporary users from a session to a product usage record.
  * deleteTempUserFromProduct(Long productUsingId, TempUser tempUser): Removes a temporary user from a product usage record.
  */
-@FeignClient(name = "DataBase", url = "http://localhost:8765/db/")
+@FeignClient(name = "DataBase", url = "http://${path.database}:8765/db/")
 public interface DataBaseFeign {
     // region Session
     @GetMapping("/session/{id}")
