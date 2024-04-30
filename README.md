@@ -1,3 +1,9 @@
+Ссылки на другие части этого проекта:
+
+    Api Gateway - https://github.com/Toxaencom1/CostSharing_ApiGateway
+    Data Base - https://github.com/Toxaencom1/CostSharing_DataBase
+    Calculate - https://github.com/Toxaencom1/CostSharing_Calculate
+
 Проект представления - Client
 
 Описание:
